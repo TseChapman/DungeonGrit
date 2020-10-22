@@ -7,6 +7,7 @@ public class HeroMovement : MonoBehaviour
     private Rigidbody2D rigidBody2D;
     private PolygonCollider2D polygonCollider2D;
 
+    [SerializeField] private Animator animator;
     [SerializeField] private LayerMask platformLayerMask;
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float jumpVelocity = 3f;
@@ -23,6 +24,7 @@ public class HeroMovement : MonoBehaviour
     {
         if (Input.GetButton("Jump") && isGrounded())
         {
+            //animator.SetBool("IsJumping", true);
             rigidBody2D.velocity = Vector2.up * jumpVelocity;
         }
         Movement();
@@ -36,6 +38,8 @@ public class HeroMovement : MonoBehaviour
 
     private void Movement()
     {
+        animator.SetFloat("Speed", Mathf.Abs(rigidBody2D.velocity.x));
+
         if (Input.GetButton("Horizontal") && Input.GetAxis("Horizontal") > 0)
         {
             rigidBody2D.velocity = new Vector2(+moveSpeed, rigidBody2D.velocity.y);
