@@ -4,53 +4,40 @@ using UnityEngine;
 
 public class HeroMovement : MonoBehaviour
 {
-    private Rigidbody2D rigidBody2D;
-    private PolygonCollider2D polygonCollider2D;
+    private bool jump = false;
 
+    [SerializeField] private HeroController controller;
     [SerializeField] private Animator animator;
-    [SerializeField] private LayerMask platformLayerMask;
-    [SerializeField] private float moveSpeed = 3f;
-    [SerializeField] private float jumpVelocity = 3f;
+    [SerializeField] private float runSpeed = 15f;
+    [SerializeField] private float horizontalMove = 0f;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidBody2D = transform.GetComponent<Rigidbody2D>();
-        polygonCollider2D = transform.GetComponent<PolygonCollider2D>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Jump") && isGrounded())
+        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+        if (Input.GetButtonDown("Jump"))
         {
-            //animator.SetBool("IsJumping", true);
-            rigidBody2D.velocity = Vector2.up * jumpVelocity;
+            jump = true;
+            animator.SetBool("IsJumping", true);
         }
-        Movement();
     }
 
-    private bool isGrounded()
+    private void FixedUpdate()
     {
-        RaycastHit2D raycastHit2D = Physics2D.BoxCast(polygonCollider2D.bounds.center, polygonCollider2D.bounds.size, 0f, Vector2.down, 0.1f, platformLayerMask);
-        return raycastHit2D.collider != null;
+        controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
+        jump = false;
     }
 
-    private void Movement()
+    public void OnLanding()
     {
-        animator.SetFloat("Speed", Mathf.Abs(rigidBody2D.velocity.x));
-
-        if (Input.GetButton("Horizontal") && Input.GetAxis("Horizontal") > 0)
-        {
-            rigidBody2D.velocity = new Vector2(+moveSpeed, rigidBody2D.velocity.y);
-        }
-        else if (Input.GetButton("Horizontal") && Input.GetAxis("Horizontal") < 0)
-        {
-            rigidBody2D.velocity = new Vector2(-moveSpeed, rigidBody2D.velocity.y);
-        }
-        else
-        {
-            rigidBody2D.velocity = new Vector2(0, rigidBody2D.velocity.y);
-        }
+        animator.SetBool("IsJumping", false);
     }
 }
