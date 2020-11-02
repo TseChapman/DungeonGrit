@@ -28,16 +28,20 @@ public class HeroMovement : MonoBehaviour
             jump = true;
             animator.SetBool("IsJumping", true);
         }
+        if (Input.GetButton("Fire1"))
+            animator.SetBool("IsAttacking", true);
+        else
+            animator.SetBool("IsAttacking", false);
+    }
+
+    public void OnLanding()
+    {
+        animator.SetBool("IsJumping", false);
     }
 
     private void FixedUpdate()
     {
         controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
         jump = false;
-    }
-
-    public void OnLanding()
-    {
-        animator.SetBool("IsJumping", false);
     }
 }
