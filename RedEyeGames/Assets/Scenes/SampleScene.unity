@@ -769,7 +769,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initHealth: 0
   runSpeed: 15
-  attackRate: 0
+  attackRate: 2
   attackRange: 0.7
 --- !u!1 &617209023
 GameObject:
