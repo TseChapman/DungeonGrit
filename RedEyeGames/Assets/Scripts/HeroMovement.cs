@@ -6,17 +6,17 @@ public class HeroMovement : MonoBehaviour
 {
     private bool jump = false;
 
-    [SerializeField] private HeroController controller;
-    [SerializeField] private Animator animator;
-    [SerializeField] private float runSpeed = 15f;
-    [SerializeField] private float horizontalMove = 0f;
-
+    [SerializeField]
+    private HeroController controller;
+    [SerializeField]
+    private Animator animator;
+    [SerializeField]
+    private float runSpeed = 15f;
+    [SerializeField]
+    private float horizontalMove = 0f;
 
     // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    void Start() {}
 
     // Update is called once per frame
     void Update()
@@ -34,10 +34,7 @@ public class HeroMovement : MonoBehaviour
             animator.SetBool("IsAttacking", false);
     }
 
-    public void OnLanding()
-    {
-        animator.SetBool("IsJumping", false);
-    }
+    public void OnLanding() { animator.SetBool("IsJumping", false); }
 
     private void FixedUpdate()
     {
