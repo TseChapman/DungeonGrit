@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\HeroMovement.cs" />
     <Compile Include="Assets\Scripts\HeroController.cs" />
+    <Compile Include="Assets\Scripts\Health.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Actual Materials\mountain-platformer-pixel-art-tileset\License.txt" />

@@ -8,7 +8,8 @@ public class HeroMovement : MonoBehaviour
 
     [SerializeField] private HeroController controller;
     [SerializeField] private Animator animator;
-    [SerializeField] private float runSpeed = 15f;
+    [SerializeField] private float  walkSpeed = 15f;
+    [SerializeField] private float runSpeedMultiplier = 2f;
     [SerializeField] private float horizontalMove = 0f;
 
 
@@ -21,14 +22,16 @@ public class HeroMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+        horizontalMove = Input.GetAxisRaw("Horizontal") * walkSpeed;
+        if (Input.GetKey(KeyCode.LeftShift))
+            horizontalMove = horizontalMove * runSpeedMultiplier;
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
             animator.SetBool("IsJumping", true);
         }
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButtonDown("Fire1"))
             animator.SetBool("IsAttacking", true);
         else
             animator.SetBool("IsAttacking", false);
