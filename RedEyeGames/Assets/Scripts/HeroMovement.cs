@@ -6,6 +6,8 @@ public class HeroMovement : MonoBehaviour
 {
     private bool jump = false;
 
+    private Health health;
+
     [SerializeField] private HeroController controller;
     [SerializeField] private Animator animator;
     [SerializeField] private float  walkSpeed = 15f;
@@ -16,12 +18,15 @@ public class HeroMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        health = GetComponent<Health>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (health.IsDead())
+            return;
+        
         horizontalMove = Input.GetAxisRaw("Horizontal") * walkSpeed;
         if (Input.GetKey(KeyCode.LeftShift))
             horizontalMove = horizontalMove * runSpeedMultiplier;
