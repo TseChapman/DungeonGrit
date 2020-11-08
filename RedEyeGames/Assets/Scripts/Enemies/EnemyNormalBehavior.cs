@@ -76,14 +76,16 @@ public class EnemyNormalBehavior : MonoBehaviour
     // Check if it reaches the edge
     private bool CheckIsGround()
     {
-        Vector2 lineCastPos = Vector2.zero;
-        lineCastPos.x = groundCheck.transform.position.x;
-        lineCastPos.y = groundCheck.transform.position.y;
+        Vector2 lineCastPos = new Vector2(groundCheck.transform.position.x, groundCheck.transform.position.y);
         Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down);
+        Vector2 blockLineCastPos = new Vector2(groundCheck.transform.position.x, groundCheck.transform.position.y + boxCollider.size.y / 2f);
+        Vector3 right = -gameObject.transform.right;
+        Debug.DrawLine(blockLineCastPos, blockLineCastPos - ToVector2(right) * 0.2f);
         bool isGound = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, plateformMask);
+        bool isBlocked = Physics2D.Linecast(blockLineCastPos, blockLineCastPos - ToVector2(right) * 0.2f, plateformMask);
         // Debug.Log(isGound);
 
-        return isGound;
+        return isGound || isBlocked;
     }
 
     // Change speed to move
@@ -157,5 +159,10 @@ public class EnemyNormalBehavior : MonoBehaviour
         {
             UpdateSpeed(0f);
         }
+    }
+
+    private Vector2 ToVector2(Vector3 vec3)
+    {
+        return new Vector2(vec3.x, vec3.y);
     }
 }
