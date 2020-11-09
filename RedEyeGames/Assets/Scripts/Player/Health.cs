@@ -7,10 +7,10 @@ public class Health : MonoBehaviour
 {
     public Slider slider;
 
-    private int maxHealth;
     private bool isDead;
 
     [SerializeField] private Animator animator;
+    [SerializeField] private int maxHealth = 100;
     [SerializeField] private int health;
 
     // Start is called before the first frame update
@@ -27,22 +27,8 @@ public class Health : MonoBehaviour
         if (isDead)
             return;
 
-        SetHealth();
-
-        if (health < 1)
-        {
-            Death();
-        }
-
         if (Input.GetKeyDown(KeyCode.Backspace))
-        {
             TakeDamage(25);
-            animator.SetBool("IsHurt", true);
-        }
-        else
-        {
-            animator.SetBool("IsHurt", false);
-        }
     }
 
     public void SetMaxHealth()
@@ -56,14 +42,25 @@ public class Health : MonoBehaviour
         slider.value = health;
     }
 
-    private void GainHealth(int health)
+    public void GainHealth(int health)
     {
         this.health += health;
+
+        SetHealth();
     }
 
-    private void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
+        if (isDead)
+            return;
+        
         health -= damage;
+        animator.SetTrigger("Hurt");
+
+        SetHealth();
+
+        if (health < 1)
+            Death();
     }
 
     private void Death()
@@ -76,5 +73,4 @@ public class Health : MonoBehaviour
     {
         return isDead;
     }
-
 }
