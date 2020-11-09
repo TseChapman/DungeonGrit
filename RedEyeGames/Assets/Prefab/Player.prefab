@@ -181,7 +181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77be08a189c30547a129df40976c515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slider: {fileID: 0}
   animator: {fileID: 565512718470323243}
+  health: 0
 --- !u!95 &565512718470323243
 Animator:
   serializedVersion: 3

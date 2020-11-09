@@ -914,10 +914,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 565512718470323243, guid: 2f191862f68a9ae449b5c982d130cfd3, type: 3}
-      propertyPath: m_CullingMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 565512718470323244, guid: 2f191862f68a9ae449b5c982d130cfd3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -962,14 +958,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 565512718470323248, guid: 2f191862f68a9ae449b5c982d130cfd3, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1.28
-      objectReference: {fileID: 0}
-    - target: {fileID: 565512718470323248, guid: 2f191862f68a9ae449b5c982d130cfd3, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.28
-      objectReference: {fileID: 0}
     - target: {fileID: 565512718470323249, guid: 2f191862f68a9ae449b5c982d130cfd3, type: 3}
       propertyPath: m_Name
       value: Player
@@ -978,10 +966,6 @@ PrefabInstance:
       propertyPath: slider
       value: 
       objectReference: {fileID: 949725524}
-    - target: {fileID: 4251406106647737812, guid: 2f191862f68a9ae449b5c982d130cfd3, type: 3}
-      propertyPath: deadSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 3e1fde3620a1261478bbb61d00adc42e, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f191862f68a9ae449b5c982d130cfd3, type: 3}
 --- !u!1001 &2626935078120320494
