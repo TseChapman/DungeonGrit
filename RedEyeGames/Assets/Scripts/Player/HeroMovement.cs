@@ -39,10 +39,7 @@ public class HeroMovement : MonoBehaviour
             jump = true;
             animator.SetBool("IsJumping", true);
         }
-        if (Input.GetButtonDown("Fire1"))
-            animator.SetBool("IsAttacking", true);
-        else
-            animator.SetBool("IsAttacking", false);
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (swordColor == 4)
@@ -54,16 +51,16 @@ public class HeroMovement : MonoBehaviour
             }
         }
         if (swordColor == 1) {
-            Debug.Log("blue");
+            //Debug.Log("blue");
             heroRenderer.material.SetColor("_Color", Color.blue);
         } else if (swordColor == 2) {
-            Debug.Log("yellow");
+            //Debug.Log("yellow");
             heroRenderer.material.SetColor("_Color", Color.yellow);
         } else if (swordColor == 3) {
-            Debug.Log("green");
+            //Debug.Log("green");
             heroRenderer.material.SetColor("_Color", Color.green);
         } else if (swordColor == 4) {
-            Debug.Log("red");
+            //Debug.Log("red");
             heroRenderer.material.SetColor("_Color", Color.red);
         }
     }
