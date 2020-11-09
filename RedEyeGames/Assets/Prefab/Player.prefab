@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 565512718470323246}
   - component: {fileID: 565512718470323241}
   - component: {fileID: 565512718470323247}
+  - component: {fileID: 4251406106647737812}
   - component: {fileID: 565512718470323243}
   - component: {fileID: 565512718470323242}
   - component: {fileID: 565512718470323248}
@@ -123,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a08789afa3fc42d4c869b50f9f64dd39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 400
+  m_JumpForce: 600
   m_CrouchSpeed: 0.36
   m_MovementSmoothing: 0.05
   m_AirControl: 1
@@ -165,8 +166,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 565512718470323241}
   animator: {fileID: 565512718470323243}
-  runSpeed: 15
+  walkSpeed: 15
+  runSpeedMultiplier: 2
   horizontalMove: 0
+--- !u!114 &4251406106647737812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 565512718470323249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77be08a189c30547a129df40976c515, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 0}
+  animator: {fileID: 565512718470323243}
+  health: 0
 --- !u!95 &565512718470323243
 Animator:
   serializedVersion: 3
