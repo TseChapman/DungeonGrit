@@ -13,12 +13,15 @@ public class HeroMovement : MonoBehaviour
     [SerializeField] private float  walkSpeed = 15f;
     [SerializeField] private float runSpeedMultiplier = 2f;
     [SerializeField] private float horizontalMove = 0f;
+    private Renderer heroRenderer;
+    private int swordColor = 1;  
 
 
     // Start is called before the first frame update
     void Start()
     {
         health = GetComponent<Health>();
+        heroRenderer = this.GetComponent<Renderer>();
     }
 
     // Update is called once per frame
@@ -40,6 +43,29 @@ public class HeroMovement : MonoBehaviour
             animator.SetBool("IsAttacking", true);
         else
             animator.SetBool("IsAttacking", false);
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (swordColor == 4)
+            {
+                swordColor = 1;
+            } else
+            {
+                swordColor++;
+            }
+        }
+        if (swordColor == 1) {
+            Debug.Log("blue");
+            heroRenderer.material.SetColor("_Color", Color.blue);
+        } else if (swordColor == 2) {
+            Debug.Log("yellow");
+            heroRenderer.material.SetColor("_Color", Color.yellow);
+        } else if (swordColor == 3) {
+            Debug.Log("green");
+            heroRenderer.material.SetColor("_Color", Color.green);
+        } else if (swordColor == 4) {
+            Debug.Log("red");
+            heroRenderer.material.SetColor("_Color", Color.red);
+        }
     }
 
     public void OnLanding() { animator.SetBool("IsJumping", false); }
