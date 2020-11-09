@@ -22,6 +22,7 @@ public class EnemyNormalBehavior : MonoBehaviour
     private float mAttackRate = 0f;
     private float mNextAttack;
     private float mTrackingRange = 0f;
+    private int mAttackDamage = 10;
 
     // Start is called before the first frame update
     private void Start()
@@ -36,6 +37,13 @@ public class EnemyNormalBehavior : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
+        if (enemyController.IsDead())
+        {
+            rb.velocity = new Vector2(0, 0);
+            this.enabled = false;
+            return;
+        }
+
         bool isGound = CheckIsGround();
         if (mEnemyBehavior == EnemyBehavior.PATROL)
         {
@@ -105,7 +113,9 @@ public class EnemyNormalBehavior : MonoBehaviour
 
         if (hitHero && Time.time >= mNextAttack)
         {
-            Debug.Log("Hit hero");
+            hero.GetComponent<Health>().TakeDamage(mAttackDamage);
+
+            //Debug.Log("Hit hero");
             animator.SetBool("isAttack", true);
             mNextAttack = Time.time + 1f / mAttackRate;
         }

@@ -9,19 +9,17 @@ public class EnemyController : MonoBehaviour
 {
     public EnemyBehavior enemyBehavior;
 
-    [SerializeField]
-    private int initHealth = 0;
-    [SerializeField]
-    private float runSpeed = 0f;
-    [SerializeField]
-    private float attackRate = 0f;
-    [SerializeField]
-    private float attackRange = 0f;
+    private bool isDead;
 
-    [SerializeField]
-    private float trackingDistance = 0f; // Only used when enemyBehavior is Tracking
+    [SerializeField] private int initHealth = 0;
+    [SerializeField] private int mCurrentHealth;
+    [SerializeField] private float runSpeed = 0f;
+    [SerializeField] private float attackRate = 0f;
+    [SerializeField] private float attackRange = 0f;
+    [SerializeField] private float trackingDistance = 0f; // Only used when enemyBehavior is Tracking
 
-    private int mCurrentHealth;
+    // Start is called before the first frame update
+    private void Start() { mCurrentHealth = initHealth; }
 
     public EnemyBehavior GetEnemyBehavior() { return enemyBehavior; }
 
@@ -51,9 +49,16 @@ public class EnemyController : MonoBehaviour
     {
         gameObject.GetComponent<EnemyNormalBehavior>().animator.SetBool("isDead", true);
 
+        isDead = true;
         // Disable box collider, enemy normal behavior, this script
+        GetComponent<Collider2D>().enabled = false;
+        //GetComponent<EnemyNormalBehavior>().enabled = false;
+        this.enabled = false;
+
     }
 
-    // Start is called before the first frame update
-    private void Start() { mCurrentHealth = initHealth; }
+    public bool IsDead()
+    {
+        return isDead;
+    }
 }

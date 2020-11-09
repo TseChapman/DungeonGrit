@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,10 +36,6 @@ public class HeroMovement : MonoBehaviour
             jump = true;
             animator.SetBool("IsJumping", true);
         }
-        if (Input.GetButtonDown("Fire1"))
-            animator.SetBool("IsAttacking", true);
-        else
-            animator.SetBool("IsAttacking", false);
     }
 
     public void OnLanding() { animator.SetBool("IsJumping", false); }
