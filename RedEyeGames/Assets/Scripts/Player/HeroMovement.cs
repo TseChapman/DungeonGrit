@@ -42,36 +42,10 @@ public class HeroMovement : MonoBehaviour
             jump = true;
             animator.SetBool("IsJumping", true);
         }
-<<<<<<< Updated upstream
         if (Input.GetButtonDown("Fire1"))
             animator.SetBool("IsAttacking", true);
         else
             animator.SetBool("IsAttacking", false);
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            if (swordColor == 4)
-            {
-                swordColor = 1;
-            } else
-            {
-                swordColor++;
-            }
-        }
-        if (swordColor == 1) {
-            Debug.Log("blue");
-            heroRenderer.material.SetColor("_Color", Color.blue);
-        } else if (swordColor == 2) {
-            Debug.Log("yellow");
-            heroRenderer.material.SetColor("_Color", Color.yellow);
-        } else if (swordColor == 3) {
-            Debug.Log("green");
-            heroRenderer.material.SetColor("_Color", Color.green);
-        } else if (swordColor == 4) {
-            Debug.Log("red");
-            heroRenderer.material.SetColor("_Color", Color.red);
-        }
-=======
->>>>>>> Stashed changes
     }
 
     public void OnLanding() { animator.SetBool("IsJumping", false); }
