@@ -17,15 +17,40 @@ public class HeroMovement : MonoBehaviour
     [SerializeField] private float walkSpeed = 15f;
     [SerializeField] private float runSpeedMultiplier = 2f;
     [SerializeField] private float horizontalMove = 0f;
+    private Renderer heroRenderer;
+    private int swordColor = 1;
+
+    // For Reset Purposes
+    private float mInitSpeed;
+    private float mInitSpeedMultiplier;
+    private float mInitHorizontalMove;
 
     [SerializeField] private float stunDuration = 0.4f;
 
     [SerializeField] private float maxJump = 11.4f; // tested number to ensure player does not "super jump"
 
+    public void SetSpeed(float speed)
+    {
+        walkSpeed = speed;
+    }
+
+    public float GetSpeed()
+    {
+        return walkSpeed;
+    }
+
+    public void ResetParameter()
+    {
+        walkSpeed = mInitSpeed;
+        runSpeedMultiplier = mInitSpeedMultiplier;
+        horizontalMove = mInitHorizontalMove;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         health = GetComponent<Health>();
+        InitResetParameter();
         rigidBody2D = GetComponent<Rigidbody2D>();
     }
 
@@ -48,6 +73,13 @@ public class HeroMovement : MonoBehaviour
             jump = true;
             animator.SetBool("IsJumping", true);
         }
+    }
+
+    private void InitResetParameter()
+    {
+        mInitSpeed = walkSpeed;
+        mInitSpeedMultiplier = runSpeedMultiplier;
+        mInitHorizontalMove = horizontalMove;
     }
 
     public void OnLanding() { animator.SetBool("IsJumping", false); }
