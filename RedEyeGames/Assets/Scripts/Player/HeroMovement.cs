@@ -6,10 +6,11 @@ using UnityEngine;
 public class HeroMovement : MonoBehaviour
 {
     private bool jump = false;
+    private bool isStun = false;
 
     private Health health;
-    private Rigidbody2D rigidBody2D;
 
+    [SerializeField] private Rigidbody2D rigidBody2D;
     [SerializeField] private HeroController controller;
     [SerializeField] private Animator animator;
     [SerializeField] private LayerMask enemyLayers;
@@ -24,7 +25,9 @@ public class HeroMovement : MonoBehaviour
     private float mInitSpeedMultiplier;
     private float mInitHorizontalMove;
 
-    [SerializeField] private float knockbackPower = 5f;
+    [SerializeField] private float stunDuration = 0.4f;
+
+    [SerializeField] private float maxJump = 11.4f; // tested number to ensure player does not "super jump"
 
     public void SetSpeed(float speed)
     {
@@ -54,7 +57,11 @@ public class HeroMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (health.IsDead())
+        // ensure player does not "super jump"
+        if (rigidBody2D.velocity.y > maxJump)
+            rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, maxJump);
+
+        if (isStun || health.IsDead())
             return;
         
         horizontalMove = Input.GetAxisRaw("Horizontal") * walkSpeed;
@@ -66,10 +73,6 @@ public class HeroMovement : MonoBehaviour
             jump = true;
             animator.SetBool("IsJumping", true);
         }
-        if (Input.GetButtonDown("Fire1"))
-            animator.SetBool("IsAttacking", true);
-        else
-            animator.SetBool("IsAttacking", false);
     }
 
     private void InitResetParameter()
@@ -87,24 +90,33 @@ public class HeroMovement : MonoBehaviour
         jump = false;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (collision.collider.CompareTag("Enemy"))
         {
-            Knockback(collision.transform);
+            int damage = collision.gameObject.GetComponent<EnemyNormalBehavior>().CollisionDamage();
+            float knockbackForce = collision.gameObject.GetComponent<EnemyNormalBehavior>().KnockbackForce();
+            health.TakeDamage(damage, knockbackForce, collision.transform);
         }
     }
 
-    private void Knockback(Transform obj)
+    public void Knockback(Transform obj, float knockbackForce)
     {
-        Vector2 direction = (obj.position - this.transform.position).normalized;
-        if (direction.x >= 0)
+        if (obj.position.x - this.transform.position.x > 0)
         {
-            rigidBody2D.AddForce(new Vector2(-2, 0.5f) * knockbackPower, ForceMode2D.Impulse);
+            rigidBody2D.AddForce(new Vector2(-4, 1) * knockbackForce, ForceMode2D.Impulse);
         }
         else
         {
-            rigidBody2D.AddForce(new Vector2(2, 0.5f) * knockbackPower, ForceMode2D.Impulse);
+            rigidBody2D.AddForce(new Vector2(4, 1) * knockbackForce, ForceMode2D.Impulse);
         }
+    }
+
+    public IEnumerator Stun()
+    {
+        isStun = true;
+        horizontalMove = 0;
+        yield return new WaitForSecondsRealtime(stunDuration);
+        isStun = false;
     }
 }

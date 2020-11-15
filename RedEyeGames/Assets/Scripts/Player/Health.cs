@@ -9,6 +9,7 @@ public class Health : MonoBehaviour
 
     private bool isDead;
 
+    [SerializeField] private HeroMovement heroMovement;
     [SerializeField] private Animator animator;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int health;
@@ -16,6 +17,7 @@ public class Health : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        heroMovement = GetComponent<HeroMovement>();
         maxHealth = 100;
         health = maxHealth;
         SetMaxHealth();
@@ -27,8 +29,10 @@ public class Health : MonoBehaviour
         if (isDead)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Backspace))
-            TakeDamage(25);
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            TakeDamage(25, 5f, this.transform);
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            GainHealth(50);
     }
 
     public float GetMaxHealth()
@@ -59,15 +63,17 @@ public class Health : MonoBehaviour
         SetHealth();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, float knockbackForce, Transform obj)
     {
         if (isDead)
             return;
         
         health -= damage;
-        animator.SetTrigger("Hurt");
-
         SetHealth();
+
+        heroMovement.Knockback(obj, knockbackForce);
+        animator.SetBool("IsJumping", false);
+        animator.SetTrigger("Hurt");
 
         if (health < 1)
             Death();

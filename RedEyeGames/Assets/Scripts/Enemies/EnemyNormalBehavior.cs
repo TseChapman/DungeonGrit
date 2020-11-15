@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class EnemyNormalBehavior : MonoBehaviour
 {
+    public LayerMask heroLayer;
+    public LayerMask plateformMask;
     public EnemyController enemyController;
     public Animator animator;
-    public LayerMask plateformMask;
     public Rigidbody2D rb;
     public BoxCollider2D boxCollider;
     public GameObject enemyPosition;
     public GameObject groundCheck;
     public GameObject attackPoint;
     public GameObject hero;
-    public LayerMask heroLayer;
 
     private EnemyBehavior mEnemyBehavior = EnemyBehavior.NUM_ENEMY_BEHAVIOR;
     private Vector2 mOffset;
@@ -23,6 +23,11 @@ public class EnemyNormalBehavior : MonoBehaviour
     private float mNextAttack;
     private float mTrackingRange = 0f;
     private int mAttackDamage = 10;
+    private float mKnockbackForce = 5;
+    private int mCollisionDamage = 5;
+
+    private bool isStun = false;
+    [SerializeField] private float stunDuration = 0.5f;
 
     // Start is called before the first frame update
     private void Start()
@@ -37,13 +42,6 @@ public class EnemyNormalBehavior : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if (enemyController.IsDead())
-        {
-            rb.velocity = new Vector2(0, 0);
-            this.enabled = false;
-            return;
-        }
-
         bool isGound = CheckIsGround();
         if (mEnemyBehavior == EnemyBehavior.PATROL)
         {
@@ -99,6 +97,9 @@ public class EnemyNormalBehavior : MonoBehaviour
     // Change speed to move
     private void UpdateSpeed(float speed)
     {
+        if (isStun) // cannot move stunned
+            return;
+
         Vector2 velocity = rb.velocity;
         velocity.x = transform.right.x * speed * Time.smoothDeltaTime;
         animator.SetFloat("Speed", speed);
@@ -113,10 +114,8 @@ public class EnemyNormalBehavior : MonoBehaviour
 
         if (hitHero && Time.time >= mNextAttack)
         {
-            hero.GetComponent<Health>().TakeDamage(mAttackDamage);
+            hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);
 
-            //Debug.Log("Hit hero");
-            animator.SetBool("isAttack", true);
             mNextAttack = Time.time + 1f / mAttackRate;
         }
     }
@@ -124,12 +123,15 @@ public class EnemyNormalBehavior : MonoBehaviour
     // Check if hero is within attack range, if so, attack
     private void CheckHeroDistance()
     {
+        if (isStun) // cannot attack if stunned
+            return;
+
         float dist = Vector3.Distance(attackPoint.transform.position, hero.transform.position);
         if (dist <= mAttackRange)
         {
             RotateTowardHero();
             UpdateSpeed(0f);
-            Attack();
+            animator.SetBool("isAttack", true); // attack function is called within the animator
         }
         else
         {
@@ -169,6 +171,18 @@ public class EnemyNormalBehavior : MonoBehaviour
         {
             UpdateSpeed(0f);
         }
+    }
+
+    public int CollisionDamage() { return mCollisionDamage; }
+
+    public float KnockbackForce() { return mKnockbackForce; }
+
+    public IEnumerator Stun()
+    {
+        isStun = true;
+        //horizontalMove = 0;
+        yield return new WaitForSecondsRealtime(stunDuration);
+        isStun = false;
     }
 
     private Vector2 ToVector2(Vector3 vec3)
