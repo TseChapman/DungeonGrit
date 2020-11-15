@@ -14,14 +14,36 @@ public class HeroMovement : MonoBehaviour
     [SerializeField] private float runSpeedMultiplier = 2f;
     [SerializeField] private float horizontalMove = 0f;
     private Renderer heroRenderer;
-    private int swordColor = 1;  
+    private int swordColor = 1;
 
+    // For Reset Purposes
+    private float mInitSpeed;
+    private float mInitSpeedMultiplier;
+    private float mInitHorizontalMove;
+
+    public void SetSpeed(float speed)
+    {
+        walkSpeed = speed;
+    }
+
+    public float GetSpeed()
+    {
+        return walkSpeed;
+    }
+
+    public void ResetParameter()
+    {
+        walkSpeed = mInitSpeed;
+        runSpeedMultiplier = mInitSpeedMultiplier;
+        horizontalMove = mInitHorizontalMove;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         health = GetComponent<Health>();
         heroRenderer = this.GetComponent<Renderer>();
+        InitResetParameter();
     }
 
     // Update is called once per frame
@@ -63,6 +85,13 @@ public class HeroMovement : MonoBehaviour
             //Debug.Log("red");
             heroRenderer.material.SetColor("_Color", Color.red);
         }
+    }
+
+    private void InitResetParameter()
+    {
+        mInitSpeed = walkSpeed;
+        mInitSpeedMultiplier = runSpeedMultiplier;
+        mInitHorizontalMove = horizontalMove;
     }
 
     public void OnLanding() { animator.SetBool("IsJumping", false); }

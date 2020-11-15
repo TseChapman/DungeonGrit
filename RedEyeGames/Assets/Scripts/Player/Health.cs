@@ -31,10 +31,20 @@ public class Health : MonoBehaviour
             TakeDamage(25);
     }
 
+    public float GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
     public void SetMaxHealth()
     {
         slider.maxValue = maxHealth;
         slider.value = health;
+    }
+
+    public float GetHealth()
+    {
+        return health;
     }
 
     public void SetHealth()
