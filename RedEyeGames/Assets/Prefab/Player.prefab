@@ -17,8 +17,7 @@ GameObject:
   - component: {fileID: 4251406106647737812}
   - component: {fileID: 4004741496392734354}
   - component: {fileID: 565512718470323243}
-  - component: {fileID: 565512718470323242}
-  - component: {fileID: 565512718470323248}
+  - component: {fileID: 990708712}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -202,6 +201,7 @@ MonoBehaviour:
   attackRate: 2
   attackForce: 1
   additionalFireDamage: 5
+  additionalRunDamage: 5
   poisonDamage: 1
   poisonDuration: 5
 --- !u!114 &4251406106647737812
@@ -252,8 +252,8 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!58 &565512718470323242
-CircleCollider2D:
+--- !u!61 &990708712
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -265,23 +265,7 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.275}
-  serializedVersion: 2
-  m_Radius: 0.18
---- !u!61 &565512718470323248
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 565512718470323249}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 4fdd93f16e3e9714ba143a618b80ff2d, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.1}
+  m_Offset: {x: 0, y: -0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -292,7 +276,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.33, y: 0.3}
+  m_Size: {x: 0.32, y: 0.5}
   m_EdgeRadius: 0
 --- !u!1 &565512719131969610
 GameObject:
