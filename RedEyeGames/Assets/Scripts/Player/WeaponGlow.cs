@@ -19,7 +19,7 @@ public class WeaponGlow : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (swordColor == 4)
+            if (swordColor == 5)
             {
                 swordColor = 1;
             }
@@ -48,5 +48,11 @@ public class WeaponGlow : MonoBehaviour
             //Debug.Log("red");
             heroRenderer.material.SetColor("_Color", Color.red);
         }
+        else if (swordColor == 5)
+        {
+            heroRenderer.material.SetColor("_Color", Color.white);
+        }
     }
+
+    public int getPowerUp() { return swordColor; }
 }
