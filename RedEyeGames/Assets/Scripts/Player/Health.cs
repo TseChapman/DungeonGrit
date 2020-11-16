@@ -20,6 +20,18 @@ public class Health : MonoBehaviour
         isGod = isGodActive;
     }
 
+    public void Death()
+    {
+        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        isDead = true;
+        animator.SetBool("IsDead", true);
+    }
+
+    public void DisableRenderer()
+    {
+        GetComponent<Renderer>().enabled = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -90,12 +102,6 @@ public class Health : MonoBehaviour
 
         if (health < 1)
             Death();
-    }
-
-    private void Death()
-    {
-        isDead = true;
-        animator.SetBool("IsDead", true);
     }
 
     public bool IsDead()
