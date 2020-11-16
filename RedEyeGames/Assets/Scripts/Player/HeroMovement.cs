@@ -1,33 +1,65 @@
 ﻿﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class HeroMovement : MonoBehaviour
 {
     private bool jump = false;
+    private bool isStun = false;
 
     private Health health;
 
+    [SerializeField] private Rigidbody2D rigidBody2D;
     [SerializeField] private HeroController controller;
     [SerializeField] private Animator animator;
-    [SerializeField] private float  walkSpeed = 15f;
+    [SerializeField] private LayerMask enemyLayers;
+    [SerializeField] private float walkSpeed = 15f;
     [SerializeField] private float runSpeedMultiplier = 2f;
     [SerializeField] private float horizontalMove = 0f;
-    private Renderer heroRenderer;
-    private int swordColor = 1;  
 
+    // For Reset Purposes
+    private float mInitSpeed;
+    private float mInitSpeedMultiplier;
+    private float mInitHorizontalMove;
+
+    [SerializeField] private float stunDuration = 0.4f;
+
+    [SerializeField] private float maxJump = 11.4f; // tested number to ensure player does not "super jump"
+
+    public void SetSpeed(float speed)
+    {
+        walkSpeed = speed;
+    }
+
+    public float GetSpeed()
+    {
+        return walkSpeed;
+    }
+
+    public void ResetParameter()
+    {
+        walkSpeed = mInitSpeed;
+        runSpeedMultiplier = mInitSpeedMultiplier;
+        horizontalMove = mInitHorizontalMove;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         health = GetComponent<Health>();
-        heroRenderer = this.GetComponent<Renderer>();
+        InitResetParameter();
+        rigidBody2D = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (health.IsDead())
+        // ensure player does not "super jump"
+        if (rigidBody2D.velocity.y > maxJump)
+            rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, maxJump);
+
+        if (isStun || health.IsDead())
             return;
         
         horizontalMove = Input.GetAxisRaw("Horizontal") * walkSpeed;
@@ -39,30 +71,13 @@ public class HeroMovement : MonoBehaviour
             jump = true;
             animator.SetBool("IsJumping", true);
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            if (swordColor == 4)
-            {
-                swordColor = 1;
-            } else
-            {
-                swordColor++;
-            }
-        }
-        if (swordColor == 1) {
-            //Debug.Log("blue");
-            heroRenderer.material.SetColor("_Color", Color.blue);
-        } else if (swordColor == 2) {
-            //Debug.Log("yellow");
-            heroRenderer.material.SetColor("_Color", Color.yellow);
-        } else if (swordColor == 3) {
-            //Debug.Log("green");
-            heroRenderer.material.SetColor("_Color", Color.green);
-        } else if (swordColor == 4) {
-            //Debug.Log("red");
-            heroRenderer.material.SetColor("_Color", Color.red);
-        }
+    private void InitResetParameter()
+    {
+        mInitSpeed = walkSpeed;
+        mInitSpeedMultiplier = runSpeedMultiplier;
+        mInitHorizontalMove = horizontalMove;
     }
 
     public void OnLanding() { animator.SetBool("IsJumping", false); }
@@ -71,5 +86,35 @@ public class HeroMovement : MonoBehaviour
     {
         controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
         jump = false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Enemy"))
+        {
+            int damage = collision.gameObject.GetComponent<EnemyNormalBehavior>().CollisionDamage();
+            float knockbackForce = collision.gameObject.GetComponent<EnemyNormalBehavior>().KnockbackForce();
+            health.TakeDamage(damage, knockbackForce, collision.transform);
+        }
+    }
+
+    public void Knockback(Transform obj, float knockbackForce)
+    {
+        if (obj.position.x - this.transform.position.x > 0)
+        {
+            rigidBody2D.AddForce(new Vector2(-4, 1) * knockbackForce, ForceMode2D.Impulse);
+        }
+        else
+        {
+            rigidBody2D.AddForce(new Vector2(4, 1) * knockbackForce, ForceMode2D.Impulse);
+        }
+    }
+
+    public IEnumerator Stun()
+    {
+        isStun = true;
+        horizontalMove = 0;
+        yield return new WaitForSecondsRealtime(stunDuration);
+        isStun = false;
     }
 }

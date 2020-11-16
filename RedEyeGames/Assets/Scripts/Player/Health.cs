@@ -8,14 +8,22 @@ public class Health : MonoBehaviour
     public Slider slider;
 
     private bool isDead;
+    private bool isGod = false;
 
+    [SerializeField] private HeroMovement heroMovement;
     [SerializeField] private Animator animator;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int health;
 
+    public void SetIsGod(bool isGodActive)
+    {
+        isGod = isGodActive;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        heroMovement = GetComponent<HeroMovement>();
         maxHealth = 100;
         health = maxHealth;
         SetMaxHealth();
@@ -27,14 +35,26 @@ public class Health : MonoBehaviour
         if (isDead)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Backspace))
-            TakeDamage(25);
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            TakeDamage(25, 5f, this.transform);
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            GainHealth(50);
+    }
+
+    public float GetMaxHealth()
+    {
+        return maxHealth;
     }
 
     public void SetMaxHealth()
     {
         slider.maxValue = maxHealth;
         slider.value = health;
+    }
+
+    public float GetHealth()
+    {
+        return health;
     }
 
     public void SetHealth()
@@ -46,18 +66,27 @@ public class Health : MonoBehaviour
     {
         this.health += health;
 
+        if (this.health > maxHealth)
+            this.health = maxHealth;
+
         SetHealth();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, float knockbackForce, Transform obj)
     {
         if (isDead)
             return;
         
-        health -= damage;
-        animator.SetTrigger("Hurt");
+        if (isGod is false)
+        {
+            //Debug.Log(isGod);
+            health -= damage;
+            SetHealth();
+        }
 
-        SetHealth();
+        heroMovement.Knockback(obj, knockbackForce);
+        animator.SetBool("IsJumping", false);
+        animator.SetTrigger("Hurt");
 
         if (health < 1)
             Death();

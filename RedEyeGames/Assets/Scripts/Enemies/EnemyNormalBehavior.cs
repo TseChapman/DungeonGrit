@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class EnemyNormalBehavior : MonoBehaviour
 {
+    public LayerMask heroLayer;
+    public LayerMask plateformMask;
     public EnemyController enemyController;
     public Animator animator;
-    public LayerMask plateformMask;
     public Rigidbody2D rb;
     public BoxCollider2D boxCollider;
     public GameObject enemyPosition;
     public GameObject groundCheck;
     public GameObject attackPoint;
     public GameObject hero;
-    public LayerMask heroLayer;
 
     private EnemyBehavior mEnemyBehavior = EnemyBehavior.NUM_ENEMY_BEHAVIOR;
     private Vector2 mOffset;
@@ -23,6 +23,9 @@ public class EnemyNormalBehavior : MonoBehaviour
     private float mNextAttack;
     private float mTrackingRange = 0f;
     private int mAttackDamage = 10;
+    private float mKnockbackForce = 5;
+    private int mCollisionDamage = 5;
+    private bool isGrounded;
 
     // Start is called before the first frame update
     private void Start()
@@ -37,17 +40,13 @@ public class EnemyNormalBehavior : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if (enemyController.IsDead())
-        {
-            rb.velocity = new Vector2(0, 0);
-            this.enabled = false;
+        if (enemyController.IsStun()) // cannot move stunned
             return;
-        }
 
         bool isGound = CheckIsGround();
         if (mEnemyBehavior == EnemyBehavior.PATROL)
         {
-            if (!isGound)
+            if (!isGound && IsGrounded())
             {
                 RotateEnemy();
             }
@@ -81,6 +80,22 @@ public class EnemyNormalBehavior : MonoBehaviour
         transform.eulerAngles = rotation;
     }
 
+    private bool IsGrounded()
+    {
+        isGrounded = false;
+
+        Collider2D[] colliders =
+            Physics2D.OverlapCircleAll(groundCheck.transform.position, 0.05f, plateformMask);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].gameObject != gameObject)
+            {
+                isGrounded = true;
+            }
+        }
+        return isGrounded;
+    }
+
     // Check if it reaches the edge
     private bool CheckIsGround()
     {
@@ -99,6 +114,9 @@ public class EnemyNormalBehavior : MonoBehaviour
     // Change speed to move
     private void UpdateSpeed(float speed)
     {
+        if (enemyController.IsStun()) // cannot move stunned
+            return;
+
         Vector2 velocity = rb.velocity;
         velocity.x = transform.right.x * speed * Time.smoothDeltaTime;
         animator.SetFloat("Speed", speed);
@@ -113,10 +131,8 @@ public class EnemyNormalBehavior : MonoBehaviour
 
         if (hitHero && Time.time >= mNextAttack)
         {
-            hero.GetComponent<Health>().TakeDamage(mAttackDamage);
+            hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);
 
-            //Debug.Log("Hit hero");
-            animator.SetBool("isAttack", true);
             mNextAttack = Time.time + 1f / mAttackRate;
         }
     }
@@ -124,22 +140,24 @@ public class EnemyNormalBehavior : MonoBehaviour
     // Check if hero is within attack range, if so, attack
     private void CheckHeroDistance()
     {
+        if (enemyController.IsStun()) // cannot attack if stunned
+            return;
+
         float dist = Vector3.Distance(attackPoint.transform.position, hero.transform.position);
         if (dist <= mAttackRange)
         {
             RotateTowardHero();
             UpdateSpeed(0f);
-            Attack();
-        }
-        else
-        {
-            animator.SetBool("isAttack", false);
+            animator.SetTrigger("Attack"); // attack function is called within the animator
         }
     }
 
     // Used in Tracking Behavior only: rotate toward hero
     private void RotateTowardHero()
     {
+        if (enemyController.IsStun()) // cannot move if stunned
+            return;
+
         if (enemyPosition.transform.position.x > hero.transform.position.x && mIsRight is true)
         {
             RotateEnemy();
@@ -154,6 +172,9 @@ public class EnemyNormalBehavior : MonoBehaviour
     // Tracking Behavior: Track toward hero within tracking range
     private void TrackHero(bool isGound)
     {
+        if (enemyController.IsStun()) // cannot move if stunned
+            return;
+
         float dist = Vector3.Distance(enemyPosition.transform.position, hero.transform.position);
         if (dist <= mTrackingRange)
         {
@@ -170,6 +191,10 @@ public class EnemyNormalBehavior : MonoBehaviour
             UpdateSpeed(0f);
         }
     }
+
+    public int CollisionDamage() { return mCollisionDamage; }
+
+    public float KnockbackForce() { return mKnockbackForce; }
 
     private Vector2 ToVector2(Vector3 vec3)
     {
