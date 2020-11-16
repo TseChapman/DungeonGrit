@@ -8,12 +8,17 @@ public class Health : MonoBehaviour
     public Slider slider;
 
     private bool isDead;
-    [SerializeField] private bool isGodMode = false;
+    private bool isGod = false;
 
     [SerializeField] private HeroMovement heroMovement;
     [SerializeField] private Animator animator;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int health;
+
+    public void SetIsGod(bool isGodActive)
+    {
+        isGod = isGodActive;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -71,16 +76,16 @@ public class Health : MonoBehaviour
     {
         if (isDead)
             return;
+        
+        if (isGod is false)
+        {
+            //Debug.Log(isGod);
+            health -= damage;
+            SetHealth();
+        }
 
         heroMovement.Knockback(obj, knockbackForce);
         animator.SetBool("IsJumping", false);
-
-        if (isGodMode)
-            return;
-
-        health -= damage;
-        SetHealth();
-
         animator.SetTrigger("Hurt");
 
         if (health < 1)
@@ -96,10 +101,5 @@ public class Health : MonoBehaviour
     public bool IsDead()
     {
         return isDead;
-    }
-
-    public void setGodMode()
-    {
-        isGodMode = true;
     }
 }

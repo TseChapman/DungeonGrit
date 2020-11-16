@@ -6840,20 +6840,6 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &109965729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3282106596051670517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da53d8d9b00208946831039cc37c3194, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hero: {fileID: 0}
-  animator: {fileID: 3282106596051670516}
 --- !u!1 &3282106596085525884
 GameObject:
   m_ObjectHideFlags: 0
@@ -14850,18 +14836,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ef3ca73a508e004d93e244575b47874, type: 3}
---- !u!1 &3282106596051670517 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 73461903182684816, guid: 4ef3ca73a508e004d93e244575b47874, type: 3}
-  m_PrefabInstance: {fileID: 3208990353551669093}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3282106596051670506 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 73461903182684815, guid: 4ef3ca73a508e004d93e244575b47874, type: 3}
-  m_PrefabInstance: {fileID: 3208990353551669093}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &3282106596051670516 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 73461903182684817, guid: 4ef3ca73a508e004d93e244575b47874, type: 3}
   m_PrefabInstance: {fileID: 3208990353551669093}
   m_PrefabAsset: {fileID: 0}

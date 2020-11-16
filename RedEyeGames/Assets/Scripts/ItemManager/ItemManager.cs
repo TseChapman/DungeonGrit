@@ -20,6 +20,8 @@ public class ItemManager : MonoBehaviour
     public Sprite[] itemBank = new Sprite[(int)Item.NUM_ITEM];
     public GameObject[] itemPrefabs = new GameObject[(int)Item.NUM_ITEM];
 
+    private ArrayList mAvailableItems = new ArrayList();
+
     public Sprite GetItemSprite(int itemIndex)
     {
         return itemBank[itemIndex];
@@ -35,20 +37,35 @@ public class ItemManager : MonoBehaviour
         return (item == Item.HEALTH_POTION || item == Item.SPEED_POTION || item == Item.ARMOR_POTION || item == Item.GOD_POTION);
     }
 
+    public void DropRandom(Transform targetPosition)
+    {
+        // Drop 1 or 2 item per enemy death
+        int numItemDrop = Random.Range(1, 2); // between 1 to 2
+        Debug.Log("Num Item Droped: " + numItemDrop);
+        for (int i = 0; i < numItemDrop; i++)
+        {
+            int itemIndex = Random.Range(0, mAvailableItems.Count);
+            PlaceItem((Item)mAvailableItems[itemIndex], targetPosition);
+        }
+    }
+
     public void PlaceItem(Item item, Transform position)
     {
         Instantiate(itemPrefabs[(int)item], position);
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        InitAvailableItems();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Use this function to hardcode availble item to drop from enemy
+    private void InitAvailableItems()
     {
-        
+        mAvailableItems.Add(Item.FIRE_GEM);
+        mAvailableItems.Add(Item.POISON_GEM);
+        mAvailableItems.Add(Item.HEALTH_POTION);
+        mAvailableItems.Add(Item.GOD_POTION);
     }
 }
