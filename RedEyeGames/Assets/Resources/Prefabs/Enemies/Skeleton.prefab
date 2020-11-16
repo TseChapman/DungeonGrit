@@ -329,6 +329,12 @@ MonoBehaviour:
   plateformMask:
     serializedVersion: 2
     m_Bits: 512
+  trapMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 1024
   enemyController: {fileID: 7031407107387344086}
   animator: {fileID: 7031407107387344083}
   rb: {fileID: 7031407107387344081}
