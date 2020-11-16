@@ -112,7 +112,7 @@ public class EnemyNormalBehavior : MonoBehaviour
     }
 
     // Change speed to move
-    private void UpdateSpeed(float speed)
+    public void UpdateSpeed(float speed)
     {
         if (enemyController.IsStun()) // cannot move stunned
             return;
@@ -129,12 +129,8 @@ public class EnemyNormalBehavior : MonoBehaviour
         Collider2D hitHero =
             Physics2D.OverlapCircle(attackPoint.transform.position, mAttackRange, heroLayer);
 
-        if (hitHero && Time.time >= mNextAttack)
-        {
+        if (hitHero)
             hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);
-
-            mNextAttack = Time.time + 1f / mAttackRate;
-        }
     }
 
     // Check if hero is within attack range, if so, attack
@@ -148,7 +144,11 @@ public class EnemyNormalBehavior : MonoBehaviour
         {
             RotateTowardHero();
             UpdateSpeed(0f);
-            animator.SetTrigger("Attack"); // attack function is called within the animator
+            if (Time.time >= mNextAttack)
+            {
+                animator.SetTrigger("Attack"); // attack function is called within the animator
+                mNextAttack = Time.time + 1f / mAttackRate;
+            }
         }
     }
 
