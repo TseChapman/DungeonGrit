@@ -275,7 +275,7 @@ MonoBehaviour:
   runSpeed: 70
   attackRate: 2
   attackRange: 0.5
-  trackingDistance: 15
+  trackingDistance: 4
   knockbackDuration: 0.5
   forceX: 2
   forceY: 1
@@ -299,6 +299,12 @@ MonoBehaviour:
   plateformMask:
     serializedVersion: 2
     m_Bits: 512
+  trapMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 1024
   enemyController: {fileID: 4903362848159491925}
   animator: {fileID: 4903362848159491921}
   rb: {fileID: 4903362848159491914}
