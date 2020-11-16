@@ -6,6 +6,7 @@ using UnityEngine;
 public class HeroMovement : MonoBehaviour
 {
     public GameObject camera;
+    public GameObject background;
     private bool jump = false;
     private bool isStun = false;
 
@@ -81,6 +82,8 @@ public class HeroMovement : MonoBehaviour
         position.x = gameObject.transform.position.x;
         position.y = gameObject.transform.position.y;
         camera.transform.position = position;
+        position.z = 0;
+        background.transform.position = position;
     }
 
     private void InitResetParameter()
@@ -96,6 +99,14 @@ public class HeroMovement : MonoBehaviour
     {
         controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
         jump = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("OutBounds"))
+        {
+            health.Death();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

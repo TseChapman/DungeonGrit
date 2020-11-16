@@ -49,18 +49,21 @@ public class HeroAttack : MonoBehaviour
     {
         powerUp = weaponGlow.GetPowerUp();
 
+        // fire powerup
         if (powerUp == 4)
             modifiedAttackDamage = baseAttackDamage + additionalFireDamage;
         else
             modifiedAttackDamage = baseAttackDamage;
 
+        // run attack modifier
         if (animator.GetFloat("Speed") > 16)
             modifiedAttackDamage = modifiedAttackDamage + additionalRunDamage;
 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            enemy.GetComponent<EnemyController>().Hurt(modifiedAttackDamage, attackForce, this.transform);
+            enemy.GetComponent<EnemyController>().Hurt(modifiedAttackDamage, attackForce, this.gameObject.transform);
+            // poison powerup
             if (powerUp == 3)
                 enemy.GetComponent<EnemyController>().DamageOverTime(poisonDamage, poisonDuration);
         }
