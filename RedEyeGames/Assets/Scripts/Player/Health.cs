@@ -7,15 +7,17 @@ public class Health : MonoBehaviour
 {
     public Slider slider;
 
-    private int maxHealth;
     private bool isDead;
 
+    [SerializeField] private HeroMovement heroMovement;
     [SerializeField] private Animator animator;
+    [SerializeField] private int maxHealth = 100;
     [SerializeField] private int health;
 
     // Start is called before the first frame update
     void Start()
     {
+        heroMovement = GetComponent<HeroMovement>();
         maxHealth = 100;
         health = maxHealth;
         SetMaxHealth();
@@ -27,22 +29,15 @@ public class Health : MonoBehaviour
         if (isDead)
             return;
 
-        SetHealth();
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            TakeDamage(25, 5f, this.transform);
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            GainHealth(50);
+    }
 
-        if (health < 1)
-        {
-            Death();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            TakeDamage(25);
-            animator.SetBool("IsHurt", true);
-        }
-        else
-        {
-            animator.SetBool("IsHurt", false);
-        }
+    public float GetMaxHealth()
+    {
+        return maxHealth;
     }
 
     public void SetMaxHealth()
@@ -51,19 +46,37 @@ public class Health : MonoBehaviour
         slider.value = health;
     }
 
+    public float GetHealth()
+    {
+        return health;
+    }
+
     public void SetHealth()
     {
         slider.value = health;
     }
 
-    private void GainHealth(int health)
+    public void GainHealth(int health)
     {
         this.health += health;
+
+        SetHealth();
     }
 
-    private void TakeDamage(int damage)
+    public void TakeDamage(int damage, float knockbackForce, Transform obj)
     {
+        if (isDead)
+            return;
+        
         health -= damage;
+        SetHealth();
+
+        heroMovement.Knockback(obj, knockbackForce);
+        animator.SetBool("IsJumping", false);
+        animator.SetTrigger("Hurt");
+
+        if (health < 1)
+            Death();
     }
 
     private void Death()
@@ -76,5 +89,4 @@ public class Health : MonoBehaviour
     {
         return isDead;
     }
-
 }
