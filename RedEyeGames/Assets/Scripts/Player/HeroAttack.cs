@@ -47,7 +47,7 @@ public class HeroAttack : MonoBehaviour
 
     void Attack()
     {
-        powerUp = weaponGlow.getPowerUp();
+        powerUp = weaponGlow.GetPowerUp();
 
         if (powerUp == 4)
             modifiedAttackDamage = baseAttackDamage + additionalFireDamage;

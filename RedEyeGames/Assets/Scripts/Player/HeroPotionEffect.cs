@@ -14,9 +14,10 @@ public enum PotionEffect
 public class HeroPotionEffect : MonoBehaviour
 {
     private HeroMovement mHeroMovement;
+    private Health mHealth;
     private InventoryManager mInventoryManager;
 
-    private PotionEffect mCurrentEffect;
+    [SerializeField] private PotionEffect mCurrentEffect;
     private bool mIsActive = false;
     private float mEffectTimer = 0f;
 
@@ -39,6 +40,7 @@ public class HeroPotionEffect : MonoBehaviour
     private void Start()
     {
         mInventoryManager = GameObject.FindObjectOfType<InventoryManager>();
+        mHealth = GetComponent<Health>();
     }
 
     // Update is called once per frame
@@ -73,6 +75,7 @@ public class HeroPotionEffect : MonoBehaviour
         else if (mCurrentEffect == PotionEffect.GOD_EFFECT)
         {
             // Keep updating health = max health
+            mHealth.setGodMode();
         }
     }
 }

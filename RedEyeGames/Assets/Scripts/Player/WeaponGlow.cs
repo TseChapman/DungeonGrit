@@ -50,9 +50,11 @@ public class WeaponGlow : MonoBehaviour
         }
         else if (swordColor == 5)
         {
-            heroRenderer.material.SetColor("_Color", Color.white);
+            heroRenderer.material.SetColor("_Color", Color.black);
         }
     }
 
-    public int getPowerUp() { return swordColor; }
+    public void SetPowerUp(int powerUp) { swordColor = powerUp; }
+
+    public int GetPowerUp() { return swordColor; }
 }

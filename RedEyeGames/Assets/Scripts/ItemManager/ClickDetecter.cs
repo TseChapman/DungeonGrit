@@ -10,12 +10,12 @@ public class ClickDetecter : MonoBehaviour, IPointerClickHandler
         int index = GetSlotIndex(eventData.pointerCurrentRaycast.gameObject.transform.parent.name);
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            Debug.Log("Left");
+            //Debug.Log("Left");
             mInventoryManager.UseItem(index);
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            Debug.Log("Right");
+            //Debug.Log("Right");
             mInventoryManager.Drop(index);
         }
         //Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.transform.parent.name);
