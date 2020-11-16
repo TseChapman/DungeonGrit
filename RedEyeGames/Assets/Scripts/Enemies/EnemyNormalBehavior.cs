@@ -49,7 +49,7 @@ public class EnemyNormalBehavior : MonoBehaviour
         bool isBlock = CheckIsBlocked();
         if (mEnemyBehavior == EnemyBehavior.PATROL)
         {
-            if (!isGound || isBlock && IsGrounded())
+            if (!isGound && IsGrounded() || isBlock)
             {
                 RotateEnemy();
             }
