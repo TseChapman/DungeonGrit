@@ -75,7 +75,7 @@ public class HeroPotionEffect : MonoBehaviour
         else if (mCurrentEffect == PotionEffect.GOD_EFFECT)
         {
             // Keep updating health = max health
-            mHealth.setGodMode();
+            //mHealth.setGodMode();
         }
     }
 }

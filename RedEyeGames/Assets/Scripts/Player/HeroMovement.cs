@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class HeroMovement : MonoBehaviour
 {
+    public GameObject camera;
     private bool jump = false;
     private bool isStun = false;
 
@@ -55,6 +56,7 @@ public class HeroMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateCamera();
         // ensure player does not "super jump"
         if (rigidBody2D.velocity.y > maxJump)
             rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, maxJump);
@@ -71,6 +73,14 @@ public class HeroMovement : MonoBehaviour
             jump = true;
             animator.SetBool("IsJumping", true);
         }
+    }
+
+    private void UpdateCamera()
+    {
+        Vector3 position = camera.transform.position;
+        position.x = gameObject.transform.position.x;
+        position.y = gameObject.transform.position.y;
+        camera.transform.position = position;
     }
 
     private void InitResetParameter()
