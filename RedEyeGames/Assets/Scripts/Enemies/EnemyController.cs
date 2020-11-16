@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     private Rigidbody2D rigidbody2D;
     private Canvas canvas;
     private SpriteRenderer renderer;
+    private Animator animator;
     private ItemManager mItemManager;
 
     [SerializeField] private int initHealth = 0;
@@ -23,6 +24,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float attackRange = 0f;
     [SerializeField] private float trackingDistance = 0f; // Only used when enemyBehavior is Tracking
 
+    [SerializeField] private bool isStun = false;
+    [SerializeField] private float stunDuration = 0.5f;
     private bool isPoisoned = false;
 
     // Start is called before the first frame update
@@ -33,6 +36,7 @@ public class EnemyController : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         canvas = GetComponentInChildren<Canvas>();
         renderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         canvas.enabled = false;
         SetMaxHealth();
     }
@@ -60,12 +64,13 @@ public class EnemyController : MonoBehaviour
 
     public void Hurt(int damage, float force, Transform obj)
     {
+        // show healthbar
         canvas.enabled = true;
+        // animate hurt animation
+        animator.SetTrigger("Hurt");
         // minus current health by damage
         mCurrentHealth -= damage;
         SetHealth();
-        // animate hurt animation
-        gameObject.GetComponent<EnemyNormalBehavior>().animator.SetTrigger("Hurt");
         Knockback(obj, force);
         // if current drop below 0, play die animation and set enable to boc collider and scripts to
         // false
@@ -112,6 +117,18 @@ public class EnemyController : MonoBehaviour
         {
             rigidbody2D.AddForce(new Vector2(2, 1) * knockbackForce, ForceMode2D.Impulse);
         }
+    }
+
+    public bool IsStun()
+    {
+        return isStun;
+    }
+
+    public IEnumerator Stun()
+    {
+        isStun = true;
+        yield return new WaitForSecondsRealtime(stunDuration);
+        isStun = false;
     }
 
     private void Die()

@@ -17,6 +17,7 @@ public class InventoryManager : MonoBehaviour
     private ItemManager mItemManager;
     private HeroPotionEffect mHeroPotionEffect;
     private Health mHealth;
+    private WeaponGlow weaponGlow;
 
     private const int NUM_ITEM_SLOT = 6;
     private const int MAX_GEM_AMOUNT = 15;
@@ -66,7 +67,7 @@ public class InventoryManager : MonoBehaviour
                     }
                     //SetPotionEffect(Potion effect, true);
                     mNumItem[slotIndex] -= 1;
-                } 
+                }
             }
         }
         else
@@ -155,6 +156,7 @@ public class InventoryManager : MonoBehaviour
         mItemManager = GameObject.FindObjectOfType<ItemManager>();
         mHeroPotionEffect = GameObject.FindObjectOfType<HeroPotionEffect>();
         mHealth = GameObject.FindObjectOfType<Health>();
+        weaponGlow = GameObject.FindObjectOfType<WeaponGlow>();
         InitInventory();
     }
 
@@ -234,7 +236,7 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < countText.Length; i++)
         {
-            countText[i].text = mNumItem[i].ToString(); 
+            countText[i].text = mNumItem[i].ToString();
         }
     }
 
@@ -242,6 +244,14 @@ public class InventoryManager : MonoBehaviour
     {
         // Set sprite
         powerUpSlot.sprite = powerUpSprites[(int)gem];
+
+        // fire gem
+        if (gem == Item.FIRE_GEM)
+            weaponGlow.SetPowerUp(4);
+
+        // poison gem
+        if (gem == Item.POISON_GEM)
+            weaponGlow.SetPowerUp(3);
 
         // Set timer
         mPowerUpTimer = 30f;
@@ -251,6 +261,9 @@ public class InventoryManager : MonoBehaviour
     {
         if (mPowerUpTimer <= 0f)
         {
+            // change weapon color
+            weaponGlow.SetPowerUp(5);
+
             // Deactivate power up because the timer is less than 0
             powerUpSlot.sprite = powerUpDefuatImage;
         }
@@ -280,6 +293,10 @@ public class InventoryManager : MonoBehaviour
         test = CollectItem(Item.FIRE_GEM);
         test = CollectItem(Item.ICE_GEM);
         test = CollectItem(Item.HEALTH_POTION);
+        test = CollectItem(Item.POISON_GEM);
+        test = CollectItem(Item.POISON_GEM);
+        test = CollectItem(Item.POISON_GEM);
+        test = CollectItem(Item.POISON_GEM);
         test = CollectItem(Item.GOD_POTION);
         //PrintInventory();
     }

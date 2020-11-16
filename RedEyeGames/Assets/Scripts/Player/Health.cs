@@ -66,6 +66,9 @@ public class Health : MonoBehaviour
     {
         this.health += health;
 
+        if (this.health > maxHealth)
+            this.health = maxHealth;
+
         SetHealth();
     }
 
