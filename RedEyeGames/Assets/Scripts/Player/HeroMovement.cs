@@ -17,8 +17,6 @@ public class HeroMovement : MonoBehaviour
     [SerializeField] private float walkSpeed = 15f;
     [SerializeField] private float runSpeedMultiplier = 2f;
     [SerializeField] private float horizontalMove = 0f;
-    private Renderer heroRenderer;
-    private int swordColor = 1;
 
     // For Reset Purposes
     private float mInitSpeed;
