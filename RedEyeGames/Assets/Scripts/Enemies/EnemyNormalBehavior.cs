@@ -40,8 +40,8 @@ public class EnemyNormalBehavior : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        /*if (!IsGrounded())
-            return;*/
+        if (enemyController.IsStun()) // cannot move stunned
+            return;
 
         bool isGound = CheckIsGround();
         if (mEnemyBehavior == EnemyBehavior.PATROL)
@@ -155,6 +155,9 @@ public class EnemyNormalBehavior : MonoBehaviour
     // Used in Tracking Behavior only: rotate toward hero
     private void RotateTowardHero()
     {
+        if (enemyController.IsStun()) // cannot move if stunned
+            return;
+
         if (enemyPosition.transform.position.x > hero.transform.position.x && mIsRight is true)
         {
             RotateEnemy();
@@ -169,6 +172,9 @@ public class EnemyNormalBehavior : MonoBehaviour
     // Tracking Behavior: Track toward hero within tracking range
     private void TrackHero(bool isGound)
     {
+        if (enemyController.IsStun()) // cannot move if stunned
+            return;
+
         float dist = Vector3.Distance(enemyPosition.transform.position, hero.transform.position);
         if (dist <= mTrackingRange)
         {
