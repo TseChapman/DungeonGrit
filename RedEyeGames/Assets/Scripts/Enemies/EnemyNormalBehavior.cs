@@ -6,6 +6,8 @@ public class EnemyNormalBehavior : MonoBehaviour
 {
     public LayerMask heroLayer;
     public LayerMask plateformMask;
+    public LayerMask trapMask;
+    public LayerMask enemyMask;
     public EnemyController enemyController;
     public Animator animator;
     public Rigidbody2D rb;
@@ -44,9 +46,10 @@ public class EnemyNormalBehavior : MonoBehaviour
             return;
 
         bool isGound = CheckIsGround();
+        bool isBlock = CheckIsBlocked();
         if (mEnemyBehavior == EnemyBehavior.PATROL)
         {
-            if (!isGound && IsGrounded())
+            if (!isGound || isBlock && IsGrounded())
             {
                 RotateEnemy();
             }
@@ -101,14 +104,20 @@ public class EnemyNormalBehavior : MonoBehaviour
     {
         Vector2 lineCastPos = new Vector2(groundCheck.transform.position.x, groundCheck.transform.position.y);
         Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down);
+        bool isGound = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, plateformMask);
+
+        return isGound;
+    }
+
+    private bool CheckIsBlocked()
+    {
         Vector2 blockLineCastPos = new Vector2(groundCheck.transform.position.x, groundCheck.transform.position.y + boxCollider.size.y / 2f);
         Vector3 right = -gameObject.transform.right;
         Debug.DrawLine(blockLineCastPos, blockLineCastPos - ToVector2(right) * 0.2f);
-        bool isGound = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, plateformMask);
-        bool isBlocked = Physics2D.Linecast(blockLineCastPos, blockLineCastPos - ToVector2(right) * 0.2f, plateformMask);
-        // Debug.Log(isGound);
-
-        return isGound || isBlocked;
+        bool isBlockByPlateform = Physics2D.Linecast(blockLineCastPos, blockLineCastPos - ToVector2(right) * 0.2f, plateformMask);
+        bool isBlockByEnemy = Physics2D.Linecast(blockLineCastPos, blockLineCastPos - ToVector2(right) * 0.2f, enemyMask);
+        bool isBlockByTrap = Physics2D.Linecast(blockLineCastPos, blockLineCastPos - ToVector2(right) * 0.2f, trapMask);
+        return isBlockByPlateform || isBlockByEnemy || isBlockByTrap;
     }
 
     // Change speed to move
