@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     private Rigidbody2D rigidbody2D;
     private Canvas canvas;
     private SpriteRenderer renderer;
+    private ItemManager mItemManager;
 
     [SerializeField] private int initHealth = 0;
     [SerializeField] private int mCurrentHealth;
@@ -26,7 +27,8 @@ public class EnemyController : MonoBehaviour
 
     // Start is called before the first frame update
     private void Start()
-    { 
+    {
+        mItemManager = GameObject.FindObjectOfType<ItemManager>();
         mCurrentHealth = initHealth;
         rigidbody2D = GetComponent<Rigidbody2D>();
         canvas = GetComponentInChildren<Canvas>();
@@ -119,6 +121,9 @@ public class EnemyController : MonoBehaviour
 
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         gameObject.GetComponent<EnemyNormalBehavior>().animator.SetBool("isDead", true);
+
+        // Spawn Item
+        mItemManager.DropRandom(gameObject.transform);
 
         // Disable box collider, enemy normal behavior, this script
         GetComponent<Collider2D>().enabled = false;

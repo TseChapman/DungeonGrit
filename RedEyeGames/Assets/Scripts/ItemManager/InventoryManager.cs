@@ -60,6 +60,10 @@ public class InventoryManager : MonoBehaviour
                 {
                     // TODO:
                     // else, active a potion effect
+                    if ((Item)mInventory[slotIndex] == Item.GOD_POTION)
+                    {
+                        mHealth.SetIsGod(true);
+                    }
                     //SetPotionEffect(Potion effect, true);
                     mNumItem[slotIndex] -= 1;
                 } 
@@ -276,10 +280,7 @@ public class InventoryManager : MonoBehaviour
         test = CollectItem(Item.FIRE_GEM);
         test = CollectItem(Item.ICE_GEM);
         test = CollectItem(Item.HEALTH_POTION);
-        test = CollectItem(Item.HOLY_GEM);
-        test = CollectItem(Item.HOLY_GEM);
-        test = CollectItem(Item.HOLY_GEM);
-        test = CollectItem(Item.HOLY_GEM);
+        test = CollectItem(Item.GOD_POTION);
         //PrintInventory();
     }
 
