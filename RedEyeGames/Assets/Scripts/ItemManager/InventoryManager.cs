@@ -291,7 +291,6 @@ public class InventoryManager : MonoBehaviour
         //PrintInventory();
         test = CollectItem(Item.FIRE_GEM);
         test = CollectItem(Item.FIRE_GEM);
-        test = CollectItem(Item.ICE_GEM);
         test = CollectItem(Item.HEALTH_POTION);
         test = CollectItem(Item.POISON_GEM);
         test = CollectItem(Item.POISON_GEM);
