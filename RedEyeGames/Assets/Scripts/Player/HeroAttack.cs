@@ -62,10 +62,13 @@ public class HeroAttack : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            enemy.GetComponent<EnemyController>().Hurt(modifiedAttackDamage, attackForce, this.gameObject.transform);
-            // poison powerup
-            if (powerUp == 3)
-                enemy.GetComponent<EnemyController>().DamageOverTime(poisonDamage, poisonDuration);
+            if (enemy.GetComponent<EnemyController>().GetEnemyBehavior() != EnemyBehavior.GHOST || powerUp == 2)
+            {
+                enemy.GetComponent<EnemyController>().Hurt(modifiedAttackDamage, attackForce, this.gameObject.transform);
+                // poison powerup
+                if (powerUp == 3)
+                    enemy.GetComponent<EnemyController>().DamageOverTime(poisonDamage, poisonDuration);
+            }
         }
     }
 
