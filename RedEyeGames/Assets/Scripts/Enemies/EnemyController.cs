@@ -72,6 +72,9 @@ public class EnemyController : MonoBehaviour
         // minus current health by damage
         mCurrentHealth -= damage;
         SetHealth();
+
+        DamagePopUp.CreateEnemy(transform.position, damage);
+
         // animate hurt animation
         animator.SetTrigger("Hurt");
         StartCoroutine(Knockback(knockbackDuration, obj, force));
@@ -97,6 +100,7 @@ public class EnemyController : MonoBehaviour
             mRenderer.color = Color.green;
             mCurrentHealth -= damageAmount;
             SetHealth();
+            DamagePopUp.CreateEnemy(transform.position, damageAmount);
             if (mCurrentHealth < 1)
             {
                 mRenderer.color = Color.white;
@@ -145,18 +149,44 @@ public class EnemyController : MonoBehaviour
 
     private void Die()
     {
+        // disable health bar
         canvas.enabled = false;
+
+        // disable all coroutines
         StopAllCoroutines();
 
-        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        // set death animation
         gameObject.GetComponent<EnemyNormalBehavior>().animator.SetBool("isDead", true);
 
         // Spawn Item
         mItemManager.DropRandom(gameObject.transform);
 
+        // ragdoll effect
+        StartCoroutine(BodyFall());
+
         // Disable box collider, enemy normal behavior, this script
-        GetComponent<Collider2D>().enabled = false;
         GetComponent<EnemyNormalBehavior>().enabled = false;
         this.enabled = false;
+    }
+
+    IEnumerator BodyFall()
+    {
+        while (!GetComponent<EnemyNormalBehavior>().IsGrounded())
+            yield return new WaitForFixedUpdate();
+        GetComponent<Collider2D>().enabled = false;
+        mRigidbody2D.bodyType = RigidbodyType2D.Static;
+        StopAllCoroutines();
+        GetComponent<EnemyNormalBehavior>().enabled = false;
+        this.enabled = false;
+        yield return 0;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("OutBounds"))
+        {
+            mRigidbody2D.bodyType = RigidbodyType2D.Static;
+            Die();
+        }
     }
 }
