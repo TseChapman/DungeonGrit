@@ -306,7 +306,7 @@ MonoBehaviour:
   attackRate: 1.75
   attackRange: 0.7
   trackingDistance: 0
-  knockbackDuration: 0.5
+  knockbackDuration: 0.3
   forceX: 2
   forceY: 1
   isStun: 0
