@@ -66,7 +66,7 @@ public class HeroAttack : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             // holy powerup
-            if (powerUp == 2 && string.Equals(enemy.name, "Skeleton"))
+            if (powerUp == 2 && enemy.CompareTag("Undead"))
                 modifiedAttackDamage = (int)(baseAttackDamage * holyDamageModifier);
 
             // if enemy is not a ghost or powerUp is holy

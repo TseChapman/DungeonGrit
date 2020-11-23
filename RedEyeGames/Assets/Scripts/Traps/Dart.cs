@@ -24,7 +24,7 @@ public class Dart : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
             collision.gameObject.GetComponent<Health>().TakeDamage(damage, knockbackForce, this.transform);
-        if (collision.collider.CompareTag("Enemy"))
+        if (collision.collider.CompareTag("Enemy") || collision.collider.CompareTag("Undead"))
             collision.gameObject.GetComponent<EnemyController>().Hurt(damage, knockbackForce, this.transform);
 
         Destroy(gameObject);
