@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
+    public Transform heroPosition;
     public Image powerUpSlot;
     public Text powerUpCoolDown;
     public Image[] itemSlot = new Image[NUM_ITEM_SLOT];
@@ -304,7 +305,19 @@ public class InventoryManager : MonoBehaviour
     private void DebugInventory()
     {
         bool test = false;
+        Vector3 pos = new Vector3(heroPosition.position.x, heroPosition.position.y, heroPosition.position.z);
+        Quaternion rotate = new Quaternion(0, 0, 0, 0);
+        // Spawn Item
+        mItemManager.DropItem(pos, Item.FIRE_GEM, rotate);
+        mItemManager.DropItem(pos, Item.ICE_GEM, rotate);
+        mItemManager.DropItem(pos, Item.HOLY_GEM, rotate);
+        mItemManager.DropItem(pos, Item.POISON_GEM, rotate);
+        mItemManager.DropItem(pos, Item.HEALTH_POTION, rotate);
+        mItemManager.DropItem(pos, Item.SPEED_POTION, rotate);
+        mItemManager.DropItem(pos, Item.ARMOR_POTION, rotate);
+        mItemManager.DropItem(pos, Item.GOD_POTION, rotate);
         //PrintInventory();
+        /*
         test = CollectItem(Item.FIRE_GEM);
         test = CollectItem(Item.FIRE_GEM);
         test = CollectItem(Item.ICE_GEM);
@@ -320,6 +333,7 @@ public class InventoryManager : MonoBehaviour
         test = CollectItem(Item.HOLY_GEM);
         test = CollectItem(Item.HOLY_GEM);
         test = CollectItem(Item.HOLY_GEM);
+        */
         //PrintInventory();
     }
 

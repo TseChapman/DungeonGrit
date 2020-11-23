@@ -49,6 +49,11 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    public void DropItem(Vector3 targetPosition, Item item, Quaternion rotation)
+    {
+        Instantiate(itemPrefabs[(int)item], targetPosition, rotation);
+    }
+
     public void PlaceItem(Item item, Transform position)
     {
         Instantiate(itemPrefabs[(int)item], position);

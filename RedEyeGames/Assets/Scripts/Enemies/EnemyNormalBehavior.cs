@@ -89,6 +89,7 @@ public class EnemyNormalBehavior : MonoBehaviour
 
     private void FindPathTrack()
     {
+        Debug.Log("Find Path");
         if (seeker.IsDone() || enemyController.GetIsDead() is false)
             seeker.StartPath(rb.position, hero.transform.position, OnPathComplete);
     }
