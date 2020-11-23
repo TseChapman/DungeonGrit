@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum EnemyBehavior { PATROL = 0, FLY = 1, TRACKING = 2, GUARD = 3, NUM_ENEMY_BEHAVIOR = 4 }
+public enum EnemyBehavior { PATROL = 0, FLY = 1, TRACKING = 2, GUARD = 3, ORC = 4, NUM_ENEMY_BEHAVIOR = 5}
 
 public class EnemyController : MonoBehaviour
 {
