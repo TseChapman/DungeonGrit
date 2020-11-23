@@ -59,6 +59,10 @@ public class EnemyNormalBehavior : MonoBehaviour
         {
             TrackHero(isGound);
         }
+        else if (mEnemyBehavior == EnemyBehavior.FLY)
+        {
+            // FLY behavior logic should go here
+        }
         CheckHeroDistance();
     }
 
