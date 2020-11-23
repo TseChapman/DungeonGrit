@@ -77,7 +77,7 @@ public class EnemyNormalBehavior : MonoBehaviour
 
     private void FindPath()
     {
-        if (seeker == null || enemyController.GetIsDead() is false)
+        if (seeker == null || enemyController.GetIsDead() is true)
             return;
 
         InvokeRepeating("FindPathTrack", 0f, .5f);
@@ -166,7 +166,7 @@ public class EnemyNormalBehavior : MonoBehaviour
         velocity.x = transform.right.x * speed * Time.smoothDeltaTime;
         if (transform.name == "Ghost")
         {
-            Debug.Log(speed);
+            //Debug.Log(speed);
         }
         animator.SetFloat("Speed", speed);
         rb.velocity = velocity;
@@ -259,7 +259,7 @@ public class EnemyNormalBehavior : MonoBehaviour
         Vector2 direction = ((Vector2)mPath.vectorPath[mCurrentWayPoint] - rb.position).normalized;
         Vector2 force = direction * enemyController.GetSpeed() * Time.deltaTime;
         rb.AddForce(force);
-        Debug.Log(force.x);
+        //Debug.Log(force.x);
         float dist = Vector2.Distance(rb.position, mPath.vectorPath[mCurrentWayPoint]);
 
         if (dist < mNextWayPointDist)
