@@ -24,7 +24,7 @@ public class SpinningBlade : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
             collision.gameObject.GetComponent<Health>().TakeDamage(trapDamage, trapKnockbackForce, this.transform);
-        if (collision.collider.CompareTag("Enemy"))
+        if (collision.collider.CompareTag("Enemy") || collision.collider.CompareTag("Undead"))
             collision.gameObject.GetComponent<EnemyController>().Hurt(trapDamage, 1f, this.transform);
     }
 }

@@ -242,6 +242,10 @@ MonoBehaviour:
   forceY: 1
   isStun: 0
   stunDuration: 0.5
+  gVal: 180
+  numIceHits: 0
+  frozen: 0
+  iceImmuneTime: 5
 --- !u!114 &6264622470931496261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +279,7 @@ MonoBehaviour:
   groundCheck: {fileID: 6264622471106677660}
   attackPoint: {fileID: 6264622471017329059}
   hero: {fileID: 0}
+  mAttackDamage: 10
 --- !u!114 &342242607657127951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,7 +349,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 74ce39b966c882e418149c7b493fd4b6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
