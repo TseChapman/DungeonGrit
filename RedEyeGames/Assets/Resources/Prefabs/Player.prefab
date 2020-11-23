@@ -168,8 +168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0218a59c0b72bf3419b6febda06c96bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
+  mCamera: {fileID: 0}
   background: {fileID: 0}
+  speedPotion: 0
   rigidBody2D: {fileID: 565512718470323246}
   controller: {fileID: 565512718470323241}
   animator: {fileID: 565512718470323243}
@@ -178,6 +179,7 @@ MonoBehaviour:
     m_Bits: 1024
   walkSpeed: 15
   runSpeedMultiplier: 2
+  speedPotionMultiplier: 1.5
   horizontalMove: 0
   stunDuration: 0.4
   maxJump: 11.4
@@ -221,6 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 0}
+  halfDamage: 0
   heroMovement: {fileID: 565512718470323247}
   animator: {fileID: 565512718470323243}
   maxHealth: 100
@@ -249,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86d423f0ead9ff649bb56f8e75d1cc0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCurrentEffect: 0
+  mCurrentEffect: 3
 --- !u!95 &565512718470323243
 Animator:
   serializedVersion: 3

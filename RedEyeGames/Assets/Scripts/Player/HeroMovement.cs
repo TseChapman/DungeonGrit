@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class HeroMovement : MonoBehaviour
 {
-    public GameObject camera;
+    public GameObject mCamera;
     public GameObject background;
     private bool jump = false;
     private bool isStun = false;
+    [SerializeField] private bool speedPotion = false;
 
     private Health health;
 
@@ -18,39 +19,22 @@ public class HeroMovement : MonoBehaviour
     [SerializeField] private LayerMask enemyLayers;
     [SerializeField] private float walkSpeed = 15f;
     [SerializeField] private float runSpeedMultiplier = 2f;
+    [SerializeField] private float speedPotionMultiplier = 1.5f;
     [SerializeField] private float horizontalMove = 0f;
-
-    // For Reset Purposes
-    private float mInitSpeed;
-    private float mInitSpeedMultiplier;
-    private float mInitHorizontalMove;
 
     [SerializeField] private float stunDuration = 0.4f;
 
     [SerializeField] private float maxJump = 11.4f; // tested number to ensure player does not "super jump"
 
-    public void SetSpeed(float speed)
+    public void SpeedBoost(bool set)
     {
-        walkSpeed = speed;
-    }
-
-    public float GetSpeed()
-    {
-        return walkSpeed;
-    }
-
-    public void ResetParameter()
-    {
-        walkSpeed = mInitSpeed;
-        runSpeedMultiplier = mInitSpeedMultiplier;
-        horizontalMove = mInitHorizontalMove;
+        speedPotion = set;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         health = GetComponent<Health>();
-        InitResetParameter();
         rigidBody2D = GetComponent<Rigidbody2D>();
     }
 
@@ -68,6 +52,8 @@ public class HeroMovement : MonoBehaviour
         horizontalMove = Input.GetAxisRaw("Horizontal") * walkSpeed;
         if (Input.GetKey(KeyCode.LeftShift))
             horizontalMove = horizontalMove * runSpeedMultiplier;
+        if (speedPotion)
+            horizontalMove = horizontalMove * speedPotionMultiplier;
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
         if (Input.GetButtonDown("Jump"))
         {
@@ -78,19 +64,12 @@ public class HeroMovement : MonoBehaviour
 
     private void UpdateCamera()
     {
-        Vector3 position = camera.transform.position;
+        Vector3 position = mCamera.transform.position;
         position.x = gameObject.transform.position.x;
         position.y = gameObject.transform.position.y;
-        camera.transform.position = position;
+        mCamera.transform.position = position;
         position.z = 0;
         background.transform.position = position;
-    }
-
-    private void InitResetParameter()
-    {
-        mInitSpeed = walkSpeed;
-        mInitSpeedMultiplier = runSpeedMultiplier;
-        mInitHorizontalMove = horizontalMove;
     }
 
     public void OnLanding() { animator.SetBool("IsJumping", false); }
