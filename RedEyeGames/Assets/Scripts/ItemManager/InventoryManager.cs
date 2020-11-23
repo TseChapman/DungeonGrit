@@ -65,6 +65,14 @@ public class InventoryManager : MonoBehaviour
                     {
                         mHealth.SetIsGod(true);
                     }
+                    else if ((Item)mInventory[slotIndex] == Item.ARMOR_POTION)
+                    {
+                        mHeroPotionEffect.SetPotionEffect(PotionEffect.ARMOR_EFFECT);
+                    }
+                    else if ((Item)mInventory[slotIndex] == Item.SPEED_POTION)
+                    {
+                        mHeroPotionEffect.SetPotionEffect(PotionEffect.SPEED_EFFECT);
+                    }
                     //SetPotionEffect(Potion effect, true);
                     mNumItem[slotIndex] -= 1;
                 }

@@ -27,7 +27,7 @@ public class EnemyNormalBehavior : MonoBehaviour
     private float mAttackRate = 0f;
     private float mNextAttack;
     private float mTrackingRange = 0f;
-    private int mAttackDamage = 10;
+    [SerializeField] private int mAttackDamage = 10;
     private float mKnockbackForce = 5;
     private int mCollisionDamage = 5;
     private bool isGrounded;
@@ -119,7 +119,7 @@ public class EnemyNormalBehavior : MonoBehaviour
         transform.eulerAngles = rotation;
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         isGrounded = false;
 

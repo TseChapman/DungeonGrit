@@ -9,6 +9,7 @@ public class Health : MonoBehaviour
 
     private bool isDead;
     private bool isGod = false;
+    [SerializeField] private bool halfDamage = false;
 
     [SerializeField] private HeroMovement heroMovement;
     [SerializeField] private Animator animator;
@@ -20,11 +21,20 @@ public class Health : MonoBehaviour
         isGod = isGodActive;
     }
 
+    public void HalfDamage(bool set)
+    {
+        halfDamage = set;
+    }
+
     public void Death()
     {
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         isDead = true;
+        health = 0;
+        SetHealth();
         animator.SetBool("IsDead", true);
+
+        FindObjectOfType<GameOverMenu>().GameOver();
     }
 
     public void DisableRenderer()
@@ -91,9 +101,11 @@ public class Health : MonoBehaviour
         
         if (isGod is false)
         {
-            //Debug.Log(isGod);
+            if (halfDamage)
+                damage = damage / 2;
             health -= damage;
             SetHealth();
+            DamagePopUp.CreatePlayer(transform.position, damage);
         }
 
         heroMovement.Knockback(obj, knockbackForce);
