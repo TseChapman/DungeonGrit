@@ -33,7 +33,7 @@ public class BearTrap : MonoBehaviour
         {
             if (collision.CompareTag("Player"))
                 collision.GetComponent<Health>().TakeDamage(trapDamage, trapKnockbackForce, this.transform);
-            if (collision.CompareTag("Enemy"))
+            if (collision.CompareTag("Enemy") || collision.CompareTag("Undead"))
                 collision.GetComponent<EnemyController>().Hurt(trapDamage, 1f, this.transform);
             GetComponent<BoxCollider2D>().enabled = false;
             this.enabled = false;
