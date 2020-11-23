@@ -30,22 +30,18 @@ public class WeaponGlow : MonoBehaviour
         }
         if (swordColor == 1)
         {
-            //Debug.Log("blue");
             heroRenderer.material.SetColor("_Color", Color.blue);
         }
         else if (swordColor == 2)
         {
-            //Debug.Log("yellow");
             heroRenderer.material.SetColor("_Color", Color.yellow);
         }
         else if (swordColor == 3)
         {
-            //Debug.Log("green");
             heroRenderer.material.SetColor("_Color", Color.green);
         }
         else if (swordColor == 4)
         {
-            //Debug.Log("red");
             heroRenderer.material.SetColor("_Color", Color.red);
         }
         else if (swordColor == 5)
