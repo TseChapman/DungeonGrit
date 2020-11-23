@@ -323,6 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1cf64d6091fb5246af244e274564b17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seeker: {fileID: 0}
   heroLayer:
     serializedVersion: 2
     m_Bits: 256

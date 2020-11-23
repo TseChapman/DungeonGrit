@@ -260,7 +260,7 @@ public class InventoryManager : MonoBehaviour
         // poison gem
         if (gem == Item.POISON_GEM)
             weaponGlow.SetPowerUp(3);
-
+            
         // ice gem
         if (gem == Item.ICE_GEM)
             weaponGlow.SetPowerUp(1);
