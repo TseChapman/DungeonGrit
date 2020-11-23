@@ -72,6 +72,10 @@ public class EnemyNormalBehavior : MonoBehaviour
         {
             UpdatePath();
         }
+        else if (mEnemyBehavior == EnemyBehavior.FLY)
+        {
+            // FLY behavior logic should go here
+        }
         CheckHeroDistance();
     }
 

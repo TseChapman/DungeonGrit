@@ -21,6 +21,9 @@ public class HeroAttack : MonoBehaviour
     [SerializeField] private int additionalRunDamage = 5;
     [SerializeField] private int poisonDamage = 1;
     [SerializeField] private int poisonDuration = 5;
+    [SerializeField] private float slowPercent = .25f;
+    private int slowDuration = 5;
+    [SerializeField] private float holyDamageModifier = 2f;
 
     // Start is called before the first frame update
     void Start()
@@ -62,12 +65,21 @@ public class HeroAttack : MonoBehaviour
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
+            // holy powerup
+            if (powerUp == 2 && string.Equals(enemy.name, "Skeleton"))
+                modifiedAttackDamage = (int)(baseAttackDamage * holyDamageModifier);
+
+            // if enemy is not a ghost or powerUp is holy
             if (enemy.GetComponent<EnemyController>().GetEnemyBehavior() != EnemyBehavior.GHOST || powerUp == 2)
             {
                 enemy.GetComponent<EnemyController>().Hurt(modifiedAttackDamage, attackForce, this.gameObject.transform);
+
                 // poison powerup
                 if (powerUp == 3)
                     enemy.GetComponent<EnemyController>().DamageOverTime(poisonDamage, poisonDuration);
+                // ice powerup
+                if (powerUp == 1)
+                    enemy.GetComponent<EnemyController>().SlowOverTime(slowPercent, slowDuration);
             }
         }
     }

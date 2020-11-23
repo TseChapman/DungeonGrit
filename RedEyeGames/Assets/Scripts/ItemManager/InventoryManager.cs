@@ -260,7 +260,12 @@ public class InventoryManager : MonoBehaviour
         // poison gem
         if (gem == Item.POISON_GEM)
             weaponGlow.SetPowerUp(3);
+            
+        // ice gem
+        if (gem == Item.ICE_GEM)
+            weaponGlow.SetPowerUp(1);
 
+        // holy gem
         if (gem == Item.HOLY_GEM)
             weaponGlow.SetPowerUp(2);
 
@@ -302,12 +307,18 @@ public class InventoryManager : MonoBehaviour
         //PrintInventory();
         test = CollectItem(Item.FIRE_GEM);
         test = CollectItem(Item.FIRE_GEM);
+        test = CollectItem(Item.ICE_GEM);
+        test = CollectItem(Item.ICE_GEM);
+        test = CollectItem(Item.ICE_GEM);
+
         test = CollectItem(Item.HEALTH_POTION);
         test = CollectItem(Item.POISON_GEM);
         test = CollectItem(Item.POISON_GEM);
         test = CollectItem(Item.POISON_GEM);
         test = CollectItem(Item.POISON_GEM);
         test = CollectItem(Item.GOD_POTION);
+        test = CollectItem(Item.HOLY_GEM);
+        test = CollectItem(Item.HOLY_GEM);
         test = CollectItem(Item.HOLY_GEM);
         //PrintInventory();
     }
