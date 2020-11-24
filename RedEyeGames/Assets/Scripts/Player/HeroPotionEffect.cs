@@ -21,8 +21,12 @@ public class HeroPotionEffect : MonoBehaviour
     private bool mIsActive = false;
     private float mEffectTimer = 0f;
 
+    private float potionDuration = 30f;
+
     public void SetPotionEffect(PotionEffect effect)
     {
+        SetActive(true);
+        SetEffectTimer(potionDuration);
         mCurrentEffect = effect;
     }
 
@@ -41,41 +45,50 @@ public class HeroPotionEffect : MonoBehaviour
     {
         mInventoryManager = GameObject.FindObjectOfType<InventoryManager>();
         mHealth = GetComponent<Health>();
+        mHeroMovement = GetComponent<HeroMovement>();
     }
 
     // Update is called once per frame
     private void Update()
     {
         mEffectTimer -= Time.smoothDeltaTime;
+        CheckEffect();
     }
 
     private void CheckEffect()
     {
         if (mIsActive is false)
         {
-            // Reset all hero parameter and return
-            mHeroMovement.ResetParameter();
+            // do nothing
             return;
         }
 
         if (mEffectTimer <= 0)
         {
+            // remove effects
             mIsActive = false;
+            mHealth.HalfDamage(false);
+            mHeroMovement.SpeedBoost(false);
             return;
         }
         if (mCurrentEffect == PotionEffect.SPEED_EFFECT)
         {
             // Add speed
-            mHeroMovement.SetSpeed(mHeroMovement.GetSpeed() * 1.25f);
+            mHeroMovement.SpeedBoost(true);
+            // Remove damage potion
+            mHealth.HalfDamage(false);
         }
         else if (mCurrentEffect == PotionEffect.ARMOR_EFFECT)
         {
-            // Visualize armor
+            // Half damage
+            mHealth.HalfDamage(true);
+            // Remove speed potion
+            mHeroMovement.SpeedBoost(false);
         }
         else if (mCurrentEffect == PotionEffect.GOD_EFFECT)
         {
-            // Keep updating health = max health
-            //mHealth.setGodMode();
+            // does not take damage
+            // effect set in InventoryManager.cs
         }
     }
 }

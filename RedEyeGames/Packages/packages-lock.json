@@ -73,9 +73,9 @@
       "dependencies": {}
     },
     "com.unity.2d.tilemap.extras": {
-      "version": "file:C:/Users/jaeda/Downloads/2d-extras-master/2d-extras-master",
+      "version": "file:com.unity.2d.tilemap.extras",
       "depth": 0,
-      "source": "local",
+      "source": "embedded",
       "dependencies": {
         "com.unity.modules.tilemap": "1.0.0",
         "com.unity.2d.tilemap": "1.0.0"

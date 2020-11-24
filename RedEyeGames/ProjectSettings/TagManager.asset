@@ -7,6 +7,8 @@ TagManager:
   - SecretArea
   - OutBounds
   - Enemy
+  - Trap
+  - Undead
   layers:
   - Default
   - TransparentFX
@@ -43,4 +45,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Top
+    uniqueID: 2225144747
     locked: 0

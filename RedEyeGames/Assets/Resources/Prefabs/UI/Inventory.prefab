@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914234029fbb7fa49a16ec4bf8fb88dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heroPosition: {fileID: 0}
   powerUpSlot: {fileID: 5501610022119342959}
   powerUpCoolDown: {fileID: 5501610023481983241}
   itemSlot:

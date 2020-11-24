@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
+    public Transform heroPosition;
     public Image powerUpSlot;
     public Text powerUpCoolDown;
     public Image[] itemSlot = new Image[NUM_ITEM_SLOT];
@@ -64,6 +65,14 @@ public class InventoryManager : MonoBehaviour
                     if ((Item)mInventory[slotIndex] == Item.GOD_POTION)
                     {
                         mHealth.SetIsGod(true);
+                    }
+                    else if ((Item)mInventory[slotIndex] == Item.ARMOR_POTION)
+                    {
+                        mHeroPotionEffect.SetPotionEffect(PotionEffect.ARMOR_EFFECT);
+                    }
+                    else if ((Item)mInventory[slotIndex] == Item.SPEED_POTION)
+                    {
+                        mHeroPotionEffect.SetPotionEffect(PotionEffect.SPEED_EFFECT);
                     }
                     //SetPotionEffect(Potion effect, true);
                     mNumItem[slotIndex] -= 1;
@@ -252,6 +261,14 @@ public class InventoryManager : MonoBehaviour
         // poison gem
         if (gem == Item.POISON_GEM)
             weaponGlow.SetPowerUp(3);
+            
+        // ice gem
+        if (gem == Item.ICE_GEM)
+            weaponGlow.SetPowerUp(1);
+
+        // holy gem
+        if (gem == Item.HOLY_GEM)
+            weaponGlow.SetPowerUp(2);
 
         // Set timer
         mPowerUpTimer = 30f;
@@ -288,16 +305,35 @@ public class InventoryManager : MonoBehaviour
     private void DebugInventory()
     {
         bool test = false;
+        Vector3 pos = new Vector3(heroPosition.position.x, heroPosition.position.y, heroPosition.position.z);
+        Quaternion rotate = new Quaternion(0, 0, 0, 0);
+        // Spawn Item
+        mItemManager.DropItem(pos, Item.FIRE_GEM, rotate);
+        mItemManager.DropItem(pos, Item.ICE_GEM, rotate);
+        mItemManager.DropItem(pos, Item.HOLY_GEM, rotate);
+        mItemManager.DropItem(pos, Item.POISON_GEM, rotate);
+        mItemManager.DropItem(pos, Item.HEALTH_POTION, rotate);
+        mItemManager.DropItem(pos, Item.SPEED_POTION, rotate);
+        mItemManager.DropItem(pos, Item.ARMOR_POTION, rotate);
+        mItemManager.DropItem(pos, Item.GOD_POTION, rotate);
         //PrintInventory();
+        /*
         test = CollectItem(Item.FIRE_GEM);
         test = CollectItem(Item.FIRE_GEM);
         test = CollectItem(Item.ICE_GEM);
+        test = CollectItem(Item.ICE_GEM);
+        test = CollectItem(Item.ICE_GEM);
+
         test = CollectItem(Item.HEALTH_POTION);
         test = CollectItem(Item.POISON_GEM);
         test = CollectItem(Item.POISON_GEM);
         test = CollectItem(Item.POISON_GEM);
         test = CollectItem(Item.POISON_GEM);
         test = CollectItem(Item.GOD_POTION);
+        test = CollectItem(Item.HOLY_GEM);
+        test = CollectItem(Item.HOLY_GEM);
+        test = CollectItem(Item.HOLY_GEM);
+        */
         //PrintInventory();
     }
 

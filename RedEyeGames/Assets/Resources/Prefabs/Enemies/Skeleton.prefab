@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 7031407107387344087}
   m_Layer: 10
   m_Name: Skeleton
-  m_TagString: Enemy
+  m_TagString: Undead
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -306,11 +306,15 @@ MonoBehaviour:
   attackRate: 1.75
   attackRange: 0.7
   trackingDistance: 0
-  knockbackDuration: 0.5
+  knockbackDuration: 0.3
   forceX: 2
   forceY: 1
   isStun: 0
   stunDuration: 0.5
+  gVal: 180
+  numIceHits: 0
+  frozen: 0
+  iceImmuneTime: 5
 --- !u!114 &7031407107387344087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1cf64d6091fb5246af244e274564b17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seeker: {fileID: 0}
   heroLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -343,6 +348,7 @@ MonoBehaviour:
   groundCheck: {fileID: 7031407108813327702}
   attackPoint: {fileID: 7031407107349024444}
   hero: {fileID: 0}
+  mAttackDamage: 10
 --- !u!1 &7031407107430198660
 GameObject:
   m_ObjectHideFlags: 0
