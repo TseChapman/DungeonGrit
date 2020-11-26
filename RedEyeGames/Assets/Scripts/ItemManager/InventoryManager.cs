@@ -26,6 +26,7 @@ public class InventoryManager : MonoBehaviour
     private ArrayList mInventory = new ArrayList(NUM_ITEM_SLOT);
     private int[] mNumItem = new int[NUM_ITEM_SLOT];
     private float mPowerUpTimer = 0f;
+    [SerializeField] private float mPowerUpDuration = 30f;
 
     public void UseItem(int slotIndex)
     {
@@ -180,8 +181,10 @@ public class InventoryManager : MonoBehaviour
         {
             DebugRemove();
         }
+
         mPowerUpTimer -= Time.smoothDeltaTime;
         powerUpCoolDown.text = "" + (int)Mathf.Max(0f, mPowerUpTimer);
+        powerUpSlot.fillAmount -= 1 / mPowerUpDuration * Time.deltaTime;
         UpdatePowerUpSprite();
     }
 
@@ -254,6 +257,8 @@ public class InventoryManager : MonoBehaviour
         // Set sprite
         powerUpSlot.sprite = powerUpSprites[(int)gem];
 
+        powerUpSlot.fillAmount = 1;
+
         // fire gem
         if (gem == Item.FIRE_GEM)
             weaponGlow.SetPowerUp(4);
@@ -271,7 +276,7 @@ public class InventoryManager : MonoBehaviour
             weaponGlow.SetPowerUp(2);
 
         // Set timer
-        mPowerUpTimer = 30f;
+        mPowerUpTimer = mPowerUpDuration;
     }
 
     private void UpdatePowerUpSprite()
