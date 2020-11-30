@@ -20,7 +20,7 @@ public class EnemyNormalBehavior : MonoBehaviour
     public GameObject attackPoint;
     public GameObject hero;
 
-    private EnemyBehavior mEnemyBehavior = EnemyBehavior.NUM_ENEMY_BEHAVIOR;
+    public EnemyBehavior mEnemyBehavior = EnemyBehavior.NUM_ENEMY_BEHAVIOR;
     private Vector2 mOffset;
     private float mAttackRange;
     private bool mIsRight = true;
@@ -37,6 +37,17 @@ public class EnemyNormalBehavior : MonoBehaviour
     private int mCurrentWayPoint = 0;
     private bool mReachedEndOfPath = false;
 
+    // orc stuff
+    [SerializeField] private int extraDamage = 0; // the 0 is for the initalizastion
+
+
+    public Transform[] patrolPoints = null;
+    private bool OrcRight = true;
+
+    private int currentPatrolPoint = 0;
+
+
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -45,6 +56,21 @@ public class EnemyNormalBehavior : MonoBehaviour
         mAttackRate = enemyController.GetAttackRate();
         mAttackRange = enemyController.GetAttackRange();
         mTrackingRange = enemyController.GetTrackingDistance();
+
+
+        //patrolPoints = p
+
+/*        patrolPoints = new Transform[patrolPoints.Length];
+        
+        for (int i = 0; i < patrolPoints.Length; i++)
+        {
+            
+            patrolPoints[i] = enemyController.patrolPoints[i];
+        }*/
+
+
+        currentPatrolPoint = 1;
+
         FindPath();
     }
 
@@ -56,7 +82,18 @@ public class EnemyNormalBehavior : MonoBehaviour
 
         bool isGound = CheckIsGround();
         bool isBlock = CheckIsBlocked();
-        if (mEnemyBehavior == EnemyBehavior.PATROL)
+        
+        
+        if (mEnemyBehavior == EnemyBehavior.TRACKING || (mEnemyBehavior == EnemyBehavior.ORC && OrcTrackTrue()))
+        {
+            // Change direction to face hero if not already facing hero
+            //UpdateSpeed(0f);
+
+            TrackHero(isGound);
+        }
+
+        // Skeleton Patrol
+        else if (mEnemyBehavior == EnemyBehavior.PATROL)
         {
             if (!isGound && IsGrounded() || isBlock)
             {
@@ -64,10 +101,15 @@ public class EnemyNormalBehavior : MonoBehaviour
             }
             UpdateSpeed(enemyController.GetSpeed());
         }
-        else if (mEnemyBehavior == EnemyBehavior.TRACKING)
+
+        // temp comment
+
+        /*// Orc Patrol
+        else if(mEnemyBehavior == EnemyBehavior.ORC)
         {
-            TrackHero(isGound);
-        }
+            OrcRetreat();
+        }*/
+
         else if (mEnemyBehavior == EnemyBehavior.GHOST)
         {
             UpdatePath();
@@ -77,6 +119,74 @@ public class EnemyNormalBehavior : MonoBehaviour
             // FLY behavior logic should go here
         }
         CheckHeroDistance();
+    }
+
+    void OrcRetreat()
+    {
+        // update direction
+        float dir = patrolPoints[currentPatrolPoint].position.x - transform.position.x;
+        
+        // if we are already there
+        if (/*Vector2.Distance(patrolPoints[currentPatrolPoint].position, transform.position)*/ Mathf.Abs(dir) < 1f)
+        {
+            OrcRight = !OrcRight;
+            /*currentPatrolPoint++;
+            if (currentPatrolPoint > patrolPoints.Length)
+            {
+                currentPatrolPoint = 0;
+            }*/
+
+
+            // change orc direction point
+            if(OrcRight)
+            {
+                currentPatrolPoint = 1;
+            }
+            else
+            {
+                currentPatrolPoint = 0;
+            }
+
+            // update direction
+            dir = patrolPoints[currentPatrolPoint].position.x - transform.position.x;
+        }
+
+        //print(dir);
+        
+        // Face direction of reteat
+        if (dir > 0) // right
+        {
+            transform.eulerAngles = new Vector2(0, 0);
+        }
+
+        else // left
+        {
+            transform.eulerAngles = new Vector2(0, 180);
+        }
+
+        /*RotateEnemy();*/
+
+        // Start moving 
+        UpdateSpeed(enemyController.GetSpeed());
+    }
+
+
+
+    bool OrcTrackTrue()
+    {
+        bool orcTrack;
+                        // Distance < tracking range
+        if (Vector3.Distance(attackPoint.transform.position, hero.transform.position) < mTrackingRange)
+        {
+            orcTrack = true;
+        }
+
+        else
+        {
+            orcTrack = false;
+        }
+
+        return orcTrack;
     }
 
     private void FindPath()
@@ -185,7 +295,10 @@ public class EnemyNormalBehavior : MonoBehaviour
             Physics2D.OverlapCircle(attackPoint.transform.position, mAttackRange, heroLayer);
 
         if (hitHero)
-            hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);
+            if(this.GetComponent<Health>().GetHealth() < this.GetComponent<Health>().GetMaxHealth() * (3 / 4) && mEnemyBehavior == EnemyBehavior.ORC) // if has less then 3/4 health (and an orc) take extra damage
+                hero.GetComponent<Health>().TakeDamage(mAttackDamage + extraDamage, mKnockbackForce, this.transform);
+            else
+                hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);
     }
 
     // Check if hero is within attack range, if so, attack
@@ -238,6 +351,10 @@ public class EnemyNormalBehavior : MonoBehaviour
             {
                 UpdateSpeed(0f);
             }
+
+            /*else if (this.GetComponent<Health>().GetHealth() < this.GetComponent<Health>().GetMaxHealth() * (1 / 4) && mEnemyBehavior == EnemyBehavior.ORC)
+                UpdateSpeed(enemyController.GetSpeed() * 3/2); // if the orc health is less then 25% then increase speed to 1.5 original*/
+
             else
                 UpdateSpeed(enemyController.GetSpeed());
         }

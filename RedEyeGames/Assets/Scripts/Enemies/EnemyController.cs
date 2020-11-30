@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum EnemyBehavior { PATROL = 0, FLY = 1, TRACKING = 2, GUARD = 3, GHOST = 4, NUM_ENEMY_BEHAVIOR = 5 }
+public enum EnemyBehavior { PATROL = 0, FLY = 1, TRACKING = 2, GUARD = 3, GHOST = 4, ORC = 5, NUM_ENEMY_BEHAVIOR = 6 }
 
 public class EnemyController : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class EnemyController : MonoBehaviour
     private Animator animator;
     private ItemManager mItemManager;
 
-    [SerializeField] private int initHealth = 0;
+    [SerializeField] public int initHealth = 0;
     [SerializeField] private int mCurrentHealth;
     [SerializeField] private float runSpeed = 0f;
     [SerializeField] private float attackRate = 0f;
@@ -35,6 +35,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private int numIceHits = 0;
     [SerializeField] private bool frozen = false;
     [SerializeField] private int iceImmuneTime = 5;
+
+    [SerializeField] public Transform[] patrolPoints;
 
     // Start is called before the first frame update
     private void Start()
