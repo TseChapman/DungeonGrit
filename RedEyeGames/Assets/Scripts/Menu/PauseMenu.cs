@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour
     public static bool isPaused = false;
 
     public GameObject pauseMenuUI;
+    public GameObject controlsMenuUI;
 
     private GameObject mRecentCheckpoint;
 
@@ -38,6 +39,12 @@ public class PauseMenu : MonoBehaviour
             }
         }
     }
+    private void Pause()
+    {
+        pauseMenuUI.SetActive(true);
+        Time.timeScale = 0f;
+        isPaused = true;
+    }
 
     public void SetRecentCheckpoint(GameObject checkpoint)
     {
@@ -51,6 +58,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
     }
 
+<<<<<<< HEAD
     public void LastCheckpoint()
     {
         if (mRecentCheckpoint != null)
@@ -63,10 +71,16 @@ public class PauseMenu : MonoBehaviour
     }
 
     private void Pause()
+=======
+    public void Controls()
+>>>>>>> 77d7d981aacf8f50f330e99e10f5deff10eed053
     {
-        pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
-        isPaused = true;
+        controlsMenuUI.SetActive(true);
+    }
+
+    public void Back()
+    {
+        controlsMenuUI.SetActive(false);
     }
 
     public void LoadMenu()
