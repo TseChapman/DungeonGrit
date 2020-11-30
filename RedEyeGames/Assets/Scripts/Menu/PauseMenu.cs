@@ -5,21 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject hero;
-    public Transform startPosition;
     public static bool isPaused = false;
 
     public GameObject pauseMenuUI;
     public GameObject controlsMenuUI;
-
-    private GameObject mRecentCheckpoint;
-
-    void Start()
-    {
-        mRecentCheckpoint = new GameObject();
-        if (startPosition != null)
-            mRecentCheckpoint.transform.position = startPosition.position;
-    }
 
     // Update is called once per frame
     void Update()
@@ -46,11 +35,6 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
     }
 
-    public void SetRecentCheckpoint(GameObject checkpoint)
-    {
-        mRecentCheckpoint = checkpoint;
-    }
-
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
@@ -58,22 +42,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
     }
 
-<<<<<<< HEAD
-    public void LastCheckpoint()
-    {
-        if (mRecentCheckpoint != null)
-        {
-            hero.transform.position = mRecentCheckpoint.transform.position;
-            Time.timeScale = 1f;
-            isPaused = false;
-            pauseMenuUI.SetActive(false);
-        }
-    }
-
-    private void Pause()
-=======
     public void Controls()
->>>>>>> 77d7d981aacf8f50f330e99e10f5deff10eed053
     {
         controlsMenuUI.SetActive(true);
     }
