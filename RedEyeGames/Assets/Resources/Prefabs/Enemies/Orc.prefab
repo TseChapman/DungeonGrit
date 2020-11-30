@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 5155815991970169303}
   - component: {fileID: 8614130638998058354}
   - component: {fileID: 3743352701312188169}
-  - component: {fileID: 711626437496164765}
+  - component: {fileID: 742606065930833731}
   - component: {fileID: 2137085299627337727}
   - component: {fileID: 4384140840041648449}
   m_Layer: 10
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 2476475517196665503}
-  enemyBehavior: 4
+  enemyBehavior: 5
   initHealth: 300
   mCurrentHealth: 0
   runSpeed: 50
@@ -195,7 +195,12 @@ MonoBehaviour:
   forceY: 1
   isStun: 0
   stunDuration: 0.5
---- !u!114 &711626437496164765
+  gVal: 180
+  numIceHits: 0
+  frozen: 0
+  iceImmuneTime: 5
+  patrolPoints: []
+--- !u!114 &742606065930833731
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -204,9 +209,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6143573243846558036}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be31a8c5a293ad14b8f39b9976ea7952, type: 3}
+  m_Script: {fileID: 11500000, guid: a1cf64d6091fb5246af244e274564b17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seeker: {fileID: 0}
   heroLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -227,6 +233,11 @@ MonoBehaviour:
   groundCheck: {fileID: 2993891409181868776}
   attackPoint: {fileID: 8389136957298499648}
   hero: {fileID: 0}
+  mEnemyBehavior: 6
+  mAttackDamage: 15
+  patrolPoints:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!61 &2137085299627337727
 BoxCollider2D:
   m_ObjectHideFlags: 0

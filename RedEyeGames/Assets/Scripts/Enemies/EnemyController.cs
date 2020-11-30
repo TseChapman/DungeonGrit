@@ -17,7 +17,7 @@ public class EnemyController : MonoBehaviour
     private Animator animator;
     private ItemManager mItemManager;
 
-    [SerializeField] private int initHealth = 0;
+    [SerializeField] public int initHealth = 0;
     [SerializeField] private int mCurrentHealth;
     [SerializeField] private float runSpeed = 0f;
     [SerializeField] private float attackRate = 0f;
@@ -35,6 +35,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private int numIceHits = 0;
     [SerializeField] private bool frozen = false;
     [SerializeField] private int iceImmuneTime = 5;
+
+    [SerializeField] public Transform[] patrolPoints;
 
     // Start is called before the first frame update
     private void Start()
