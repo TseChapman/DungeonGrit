@@ -91,7 +91,7 @@ Transform:
   m_GameObject: {fileID: 6143573243846558036}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
   - {fileID: 2746588349553761861}
   - {fileID: 1338109850748367641}
@@ -188,7 +188,7 @@ MonoBehaviour:
   mCurrentHealth: 0
   runSpeed: 50
   attackRate: 0.5
-  attackRange: 0.5
+  attackRange: 0.8
   trackingDistance: 10
   knockbackDuration: 0.5
   forceX: 2
@@ -235,6 +235,8 @@ MonoBehaviour:
   hero: {fileID: 0}
   mEnemyBehavior: 6
   mAttackDamage: 15
+  mKnockbackForce: 10
+  extraDamage: 0
   patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -251,7 +253,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.35727036, y: -0.15460789}
+  m_Offset: {x: -0.38570154, y: -0.15460789}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -262,7 +264,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.77573323, y: 0.9512744}
+  m_Size: {x: 0.55641425, y: 0.9512744}
   m_EdgeRadius: 0
 --- !u!50 &4384140840041648449
 Rigidbody2D:

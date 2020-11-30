@@ -28,7 +28,7 @@ public class EnemyNormalBehavior : MonoBehaviour
     private float mNextAttack;
     private float mTrackingRange = 0f;
     [SerializeField] private int mAttackDamage = 10;
-    private float mKnockbackForce = 5;
+    [SerializeField] private float mKnockbackForce = 5;
     private int mCollisionDamage = 5;
     private bool isGrounded;
 
@@ -295,9 +295,11 @@ public class EnemyNormalBehavior : MonoBehaviour
             Physics2D.OverlapCircle(attackPoint.transform.position, mAttackRange, heroLayer);
 
         if (hitHero)
+            /*
             if(this.GetComponent<Health>().GetHealth() < this.GetComponent<Health>().GetMaxHealth() * (3 / 4) && mEnemyBehavior == EnemyBehavior.ORC) // if has less then 3/4 health (and an orc) take extra damage
                 hero.GetComponent<Health>().TakeDamage(mAttackDamage + extraDamage, mKnockbackForce, this.transform);
             else
+            */
                 hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);
     }
 
