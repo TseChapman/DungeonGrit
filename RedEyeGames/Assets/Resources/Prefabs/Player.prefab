@@ -210,8 +210,6 @@ MonoBehaviour:
   additionalRunDamage: 5
   poisonDamage: 1
   poisonDuration: 5
-  slowPercent: 0.25
-  holyDamageModifier: 2
 --- !u!114 &4251406106647737812
 MonoBehaviour:
   m_ObjectHideFlags: 0
