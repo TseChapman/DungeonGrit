@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
+using System.IO;
 
 public class EnemyNormalBehavior : MonoBehaviour
 {
+    public Seeker seeker;
     public LayerMask heroLayer;
     public LayerMask plateformMask;
     public LayerMask trapMask;
@@ -29,6 +32,11 @@ public class EnemyNormalBehavior : MonoBehaviour
     private int mCollisionDamage = 5;
     private bool isGrounded;
 
+    private float mNextWayPointDist = 1f;
+    private Pathfinding.Path mPath;
+    private int mCurrentWayPoint = 0;
+    private bool mReachedEndOfPath = false;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -37,6 +45,7 @@ public class EnemyNormalBehavior : MonoBehaviour
         mAttackRate = enemyController.GetAttackRate();
         mAttackRange = enemyController.GetAttackRange();
         mTrackingRange = enemyController.GetTrackingDistance();
+        FindPath();
     }
 
     // Update is called once per frame
@@ -59,11 +68,40 @@ public class EnemyNormalBehavior : MonoBehaviour
         {
             TrackHero(isGound);
         }
+        else if (mEnemyBehavior == EnemyBehavior.GHOST)
+        {
+            UpdatePath();
+        }
         else if (mEnemyBehavior == EnemyBehavior.FLY)
         {
             // FLY behavior logic should go here
         }
         CheckHeroDistance();
+    }
+
+    private void FindPath()
+    {
+        Debug.Log("FINDING PATH");
+        if (seeker == null || enemyController.GetIsDead() is true)
+            return;
+
+        InvokeRepeating("FindPathTrack", 0f, .5f);
+    }
+
+    private void FindPathTrack()
+    {
+        Debug.Log("Find Path");
+        if (seeker.IsDone() || enemyController.GetIsDead() is false)
+            seeker.StartPath(rb.position, hero.transform.position, OnPathComplete);
+    }
+
+    private void OnPathComplete(Pathfinding.Path p)
+    {
+        if (!p.error)
+        {
+            mPath = p;
+            mCurrentWayPoint = 0;
+        }
     }
 
     // Rotate Enemy 180 degree and position enemy based on offset
@@ -132,6 +170,10 @@ public class EnemyNormalBehavior : MonoBehaviour
 
         Vector2 velocity = rb.velocity;
         velocity.x = transform.right.x * speed * Time.smoothDeltaTime;
+        if (transform.name == "Ghost")
+        {
+            //Debug.Log(speed);
+        }
         animator.SetFloat("Speed", speed);
         rb.velocity = velocity;
     }
@@ -202,6 +244,33 @@ public class EnemyNormalBehavior : MonoBehaviour
         else
         {
             UpdateSpeed(0f);
+        }
+    }
+
+    private void UpdatePath()
+    {
+        if (mPath == null)
+            return;
+
+        if (mCurrentWayPoint >= mPath.vectorPath.Count)
+        {
+            mReachedEndOfPath = true;
+            return;
+        }
+        else
+        {
+            mReachedEndOfPath = false;
+        }
+        RotateTowardHero();
+        Vector2 direction = ((Vector2)mPath.vectorPath[mCurrentWayPoint] - rb.position).normalized;
+        Vector2 force = direction * enemyController.GetSpeed() * Time.deltaTime;
+        rb.AddForce(force);
+        //Debug.Log(force.x);
+        float dist = Vector2.Distance(rb.position, mPath.vectorPath[mCurrentWayPoint]);
+
+        if (dist < mNextWayPointDist)
+        {
+            mCurrentWayPoint++;
         }
     }
 

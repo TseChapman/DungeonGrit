@@ -123,4 +123,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dart: {fileID: 6623283898441863093, guid: b3aca52f40607f74a862b4352679982c, type: 3}
-  rateOfFire: 1
+  rateOfFire: 2

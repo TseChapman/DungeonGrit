@@ -66,17 +66,21 @@ public class HeroAttack : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             // holy powerup
-            if (powerUp == 2 && string.Equals(enemy.name, "Skeleton"))
+            if (powerUp == 2 && enemy.CompareTag("Undead"))
                 modifiedAttackDamage = (int)(baseAttackDamage * holyDamageModifier);
 
-            enemy.GetComponent<EnemyController>().Hurt(modifiedAttackDamage, attackForce, this.gameObject.transform);
+            // if enemy is not a ghost or powerUp is holy
+            if (enemy.GetComponent<EnemyController>().GetEnemyBehavior() != EnemyBehavior.GHOST || powerUp == 2)
+            {
+                enemy.GetComponent<EnemyController>().Hurt(modifiedAttackDamage, attackForce, this.gameObject.transform);
 
-            // poison powerup
-            if (powerUp == 3)
-                enemy.GetComponent<EnemyController>().DamageOverTime(poisonDamage, poisonDuration);
-            // ice powerup
-            if (powerUp == 1)
-                enemy.GetComponent<EnemyController>().SlowOverTime(slowPercent, slowDuration);
+                // poison powerup
+                if (powerUp == 3)
+                    enemy.GetComponent<EnemyController>().DamageOverTime(poisonDamage, poisonDuration);
+                // ice powerup
+                if (powerUp == 1)
+                    enemy.GetComponent<EnemyController>().SlowOverTime(slowPercent, slowDuration);
+            }
         }
     }
 

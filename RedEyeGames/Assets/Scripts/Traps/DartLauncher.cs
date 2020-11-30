@@ -6,7 +6,7 @@ using UnityEngine;
 public class DartLauncher : MonoBehaviour
 {
     [SerializeField] private GameObject dart;
-    [SerializeField] private float rateOfFire = 1f;
+    [SerializeField] private float rateOfFire = 2f;
     private float lastShot = 0f;
 
     // Start is called before the first frame update
@@ -21,7 +21,7 @@ public class DartLauncher : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {

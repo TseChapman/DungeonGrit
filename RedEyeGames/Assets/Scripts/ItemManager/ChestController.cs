@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class ChestController : MonoBehaviour
 {
-    public bool isOpen = false;
-    public bool isRandom = true;
-    public Item droppedItem;
     private Animator animator;
     private ItemManager mItemManager;
+
+    public int numberItems = 1;
+    public bool isRandom = true;
+    public Item droppedItem;
+    private bool isOpen = false;
 
     public void Start()
     {
@@ -23,10 +25,13 @@ public class ChestController : MonoBehaviour
             isOpen = true;
             animator.SetBool("IsOpen", isOpen);
 
-            if (isRandom)
-                mItemManager.DropRandom(transform);
-            else
-                mItemManager.PlaceItem(droppedItem, transform);
+            for (int i = 0; i < numberItems; i++)
+            {
+                if (isRandom)
+                    mItemManager.DropRandom(transform);
+                else
+                    mItemManager.PlaceItem(droppedItem, transform);
+            }
         }
     }
 }

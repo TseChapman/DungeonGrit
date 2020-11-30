@@ -8,6 +8,7 @@ TagManager:
   - OutBounds
   - Enemy
   - Trap
+  - Undead
   layers:
   - Default
   - TransparentFX
