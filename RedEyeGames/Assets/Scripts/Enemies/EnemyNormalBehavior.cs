@@ -282,4 +282,9 @@ public class EnemyNormalBehavior : MonoBehaviour
     {
         return new Vector2(vec3.x, vec3.y);
     }
+
+    public void setHero(GameObject theHero)
+    {
+        hero = theHero;
+    }
 }
