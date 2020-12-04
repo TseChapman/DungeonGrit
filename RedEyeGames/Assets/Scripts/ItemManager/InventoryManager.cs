@@ -41,10 +41,10 @@ public class InventoryManager : MonoBehaviour
         if (isGem)
         {
             //Debug.Log("IsGem is true");
-            if (mNumItem[slotIndex] >= 3)
+            if (mNumItem[slotIndex] >= 2)
             {
                 GainPowerUp((Item)mInventory[slotIndex]); // get the power up based on the gem
-                mNumItem[slotIndex] -= 3;
+                mNumItem[slotIndex] -= 2;
             }
         }
         else if (isPotion)
