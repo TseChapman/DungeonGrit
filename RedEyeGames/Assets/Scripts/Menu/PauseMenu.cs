@@ -11,6 +11,7 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject pauseMenuUI;
     public GameObject controlsMenuUI;
+    public GameObject helpMenuUI;
 
     private GameObject mRecentCheckpoint;
 
@@ -74,9 +75,19 @@ public class PauseMenu : MonoBehaviour
         controlsMenuUI.SetActive(true);
     }
 
-    public void Back()
+    public void ControlsBack()
     {
         controlsMenuUI.SetActive(false);
+    }
+
+    public void Help()
+    {
+        helpMenuUI.SetActive(true);
+    }
+
+    public void HelpBack()
+    {
+        helpMenuUI.SetActive(false);
     }
 
     public void LoadMenu()
