@@ -31,6 +31,16 @@ public class HeroMovement : MonoBehaviour
     [SerializeField] private float stunDuration = 0.4f;
 
     [SerializeField] private float maxJump = 11.4f; // tested number to ensure player does not "super jump"
+
+    [SerializeField] private bool isRolling;
+    [SerializeField] private float rollTime = 0.5f;
+    [SerializeField] private float rollSpeed = 20f;
+    [SerializeField] private float rollCooldown = 2f;
+    private float lastRoll = 0;
+    private float rollTimeLeft;
+    private bool canJump = true;
+    private bool canMove = true;
+
     
     public void SetSpeed(float speed)
     {
@@ -83,9 +93,59 @@ public class HeroMovement : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
         if (Input.GetButtonDown("Jump"))
         {
-            jump = true;
-            animator.SetBool("IsJumping", true);
+            if (canJump)
+            {
+                jump = true;
+                animator.SetBool("IsJumping", true);
+            }
         }
+
+        if (Input.GetButtonDown("Roll"))
+        {
+            if (Time.time > (lastRoll + rollCooldown) && !animator.GetBool("IsJumping"))
+                Roll();
+        }
+        CheckRoll();
+    }
+
+    private void Roll()
+    {
+        animator.SetTrigger("Roll");
+        isRolling = true;
+        rollTimeLeft = rollTime;
+        lastRoll = Time.time;
+    }
+
+    private void CheckRoll()
+    {
+        if (isRolling)
+        {
+            if (rollTimeLeft > 0)
+            {
+                if (transform.localScale.x > 0)
+                    rigidBody2D.velocity = new Vector2(rollSpeed, rigidBody2D.velocity.y);
+                else
+                    rigidBody2D.velocity = new Vector2(-rollSpeed, rigidBody2D.velocity.y);
+                rollTimeLeft -= Time.deltaTime;
+            }
+            if (rollTimeLeft < 0)
+            {
+                isRolling = false;
+            }
+        }
+    }
+
+    public void YesMoveJump()
+    {
+        canMove = true;
+        canJump = true;
+    }
+
+    public void NoMoveJump()
+    {
+
+        canMove = false;
+        canJump = false;
     }
 
     private void UpdateCamera()
@@ -109,7 +169,8 @@ public class HeroMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
+        if (canMove)
+            controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
         jump = false;
     }
 
