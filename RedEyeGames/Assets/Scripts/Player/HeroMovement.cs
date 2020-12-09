@@ -16,6 +16,7 @@ public class HeroMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D rigidBody2D;
     [SerializeField] private HeroController controller;
     [SerializeField] private Animator animator;
+    [SerializeField] private BoxCollider2D boxCollider2D;
     [SerializeField] private LayerMask enemyLayers;
     [SerializeField] private float walkSpeed = 15f;
     [SerializeField] private float runSpeedMultiplier = 2f;
@@ -34,7 +35,7 @@ public class HeroMovement : MonoBehaviour
 
     [SerializeField] private bool isRolling;
     [SerializeField] private float rollTime = 0.5f;
-    [SerializeField] private float rollSpeed = 20f;
+    [SerializeField] private float rollSpeed = 7f;
     [SerializeField] private float rollCooldown = 2f;
     private float lastRoll = 0;
     private float rollTimeLeft;
@@ -67,9 +68,10 @@ public class HeroMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        boxCollider2D = GetComponent<BoxCollider2D>();
+        rigidBody2D = GetComponent<Rigidbody2D>();
         health = GetComponent<Health>();
         InitResetParameter();
-        rigidBody2D = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -122,14 +124,35 @@ public class HeroMovement : MonoBehaviour
         {
             if (rollTimeLeft > 0)
             {
+                boxCollider2D.enabled = false;
                 if (transform.localScale.x > 0)
-                    rigidBody2D.velocity = new Vector2(rollSpeed, rigidBody2D.velocity.y);
+                    if (controller.getGrounded())
+                    {
+                        rigidBody2D.bodyType = RigidbodyType2D.Kinematic;
+                        rigidBody2D.velocity = new Vector2(rollSpeed, 0);
+                    }
+                    else
+                    {
+                        rigidBody2D.bodyType = RigidbodyType2D.Dynamic;
+                        rigidBody2D.velocity = new Vector2(rollSpeed, rigidBody2D.velocity.y);
+                    }
                 else
-                    rigidBody2D.velocity = new Vector2(-rollSpeed, rigidBody2D.velocity.y);
+                    if (controller.getGrounded())
+                    {
+                        rigidBody2D.bodyType = RigidbodyType2D.Kinematic;
+                        rigidBody2D.velocity = new Vector2(-rollSpeed, 0);
+                    }
+                    else
+                    {
+                        rigidBody2D.bodyType = RigidbodyType2D.Dynamic;
+                        rigidBody2D.velocity = new Vector2(-rollSpeed, rigidBody2D.velocity.y);
+                    }
                 rollTimeLeft -= Time.deltaTime;
             }
             if (rollTimeLeft < 0)
             {
+                boxCollider2D.enabled = true;
+                rigidBody2D.bodyType = RigidbodyType2D.Dynamic;
                 isRolling = false;
             }
         }
