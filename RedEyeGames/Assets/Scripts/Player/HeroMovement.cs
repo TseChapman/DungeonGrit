@@ -213,6 +213,12 @@ public class HeroMovement : MonoBehaviour
             float knockbackForce = collision.gameObject.GetComponent<EnemyNormalBehavior>().KnockbackForce();
             health.TakeDamage(damage, knockbackForce, collision.transform);
         }
+        else if (collision.collider.CompareTag("Boss"))
+        {
+            int damage = collision.gameObject.GetComponent<BossBehavior>().CollisionDamage();
+            float knockbackForce = collision.gameObject.GetComponent<BossBehavior>().KnockbackForce();
+            health.TakeDamage(damage, knockbackForce, collision.transform);
+        }
     }
 
     public void Knockback(Transform obj, float knockbackForce)

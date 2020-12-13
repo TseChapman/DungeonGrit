@@ -69,8 +69,19 @@ public class HeroAttack : MonoBehaviour
             if (powerUp == 2 && enemy.CompareTag("Undead"))
                 modifiedAttackDamage = (int)(baseAttackDamage * holyDamageModifier);
 
+            if (enemy.CompareTag("Boss"))
+            {
+                enemy.GetComponent<BossController>().Hurt(modifiedAttackDamage, attackForce, this.gameObject.transform);
+
+                // poison powerup
+                if (powerUp == 3)
+                    enemy.GetComponent<BossController>().DamageOverTime(poisonDamage, poisonDuration);
+                // ice powerup
+                if (powerUp == 1)
+                    enemy.GetComponent<BossController>().SlowOverTime(slowPercent, slowDuration);
+            }
             // if enemy is not a ghost or powerUp is holy
-            if (enemy.GetComponent<EnemyController>().GetEnemyBehavior() != EnemyBehavior.GHOST || powerUp == 2)
+            else if (enemy.GetComponent<EnemyController>().GetEnemyBehavior() != EnemyBehavior.GHOST || powerUp == 2)
             {
                 enemy.GetComponent<EnemyController>().Hurt(modifiedAttackDamage, attackForce, this.gameObject.transform);
 
