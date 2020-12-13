@@ -9,7 +9,6 @@ TagManager:
   - Enemy
   - Trap
   - Undead
-  - Boss
   layers:
   - Default
   - TransparentFX

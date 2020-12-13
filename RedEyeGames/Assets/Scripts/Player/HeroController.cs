@@ -160,9 +160,4 @@ public class HeroController : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
-
-    public bool getGrounded()
-    {
-        return m_Grounded;
-    }
 }

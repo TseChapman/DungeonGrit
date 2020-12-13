@@ -19,10 +19,8 @@ public class ItemManager : MonoBehaviour
 {
     public Sprite[] itemBank = new Sprite[(int)Item.NUM_ITEM];
     public GameObject[] itemPrefabs = new GameObject[(int)Item.NUM_ITEM];
-    public bool mKeyDropped = false;
 
     private ArrayList mAvailableItems = new ArrayList();
-    
 
     public Sprite GetItemSprite(int itemIndex)
     {
@@ -42,22 +40,12 @@ public class ItemManager : MonoBehaviour
     public void DropRandom(Transform targetPosition)
     {
         // Drop 1 or 2 item per enemy death
-        int numItemDrop = Random.Range(2, 4); // between 1 to 2
+        int numItemDrop = Random.Range(1, 2); // between 1 to 2
         Debug.Log("Num Item Droped: " + numItemDrop);
         for (int i = 0; i < numItemDrop; i++)
         {
-            float prob = Random.Range(0, 1f);
-            //Debug.Log(prob);
-            CheckItem(prob, targetPosition);
-        }
-
-        // Every enemy has a chance to drop the door key
-        int keyDropChance = Random.Range(1, 100); // between 1 to 100
-
-        // 40% chance for key to drop
-        if (keyDropChance >= 60)
-        {
-            mKeyDropped = true;
+            int itemIndex = Random.Range(0, mAvailableItems.Count);
+            PlaceItem((Item)mAvailableItems[itemIndex], targetPosition);
         }
     }
 
@@ -75,38 +63,6 @@ public class ItemManager : MonoBehaviour
     private void Start()
     {
         InitAvailableItems();
-    }
-
-    private void CheckItem(float prob, Transform targetPosition)
-    {
-        if (prob > 0.9f)
-        {
-            PlaceItem(Item.ARMOR_POTION, targetPosition);
-        }
-        else if (prob > 0.8f)
-        {
-            PlaceItem(Item.SPEED_POTION, targetPosition);
-        }
-        else if (prob > 0.6f)
-        {
-            PlaceItem(Item.HEALTH_POTION, targetPosition);
-        }
-        else if (prob > 0.45f)
-        {
-            PlaceItem(Item.POISON_GEM, targetPosition);
-        }
-        else if (prob > 0.3f)
-        {
-            PlaceItem(Item.HOLY_GEM, targetPosition);
-        }
-        else if (prob > 0.15f)
-        {
-            PlaceItem(Item.ICE_GEM, targetPosition);
-        }
-        else
-        {
-            PlaceItem(Item.FIRE_GEM, targetPosition);
-        }
     }
 
     // Use this function to hardcode availble item to drop from enemy
