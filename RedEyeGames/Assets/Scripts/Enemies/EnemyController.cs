@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum EnemyBehavior { PATROL = 0, FLY = 1, TRACKING = 2, GUARD = 3, GHOST = 4, ORC = 5, NUM_ENEMY_BEHAVIOR = 6 }
+public enum EnemyBehavior { PATROL = 0, FLY = 1, TRACKING = 2, GUARD = 3, GHOST = 4, ORC = 5, XPATROL = 6,  NUM_ENEMY_BEHAVIOR = 7}
 
 public class EnemyController : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public class EnemyController : MonoBehaviour
     private ItemManager mItemManager;
 
     [SerializeField] public int initHealth = 0;
-    [SerializeField] private int mCurrentHealth;
+    [SerializeField] public int mCurrentHealth;
     [SerializeField] private float runSpeed = 0f;
     [SerializeField] private float attackRate = 0f;
     [SerializeField] private float attackRange = 0f;
@@ -37,6 +37,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private int iceImmuneTime = 5;
 
     [SerializeField] public Transform[] patrolPoints;
+
+    public GameObject enemySpawner = null; // this is only used if spawned by enemySpawner 
 
     // Start is called before the first frame update
     private void Start()
@@ -60,6 +62,16 @@ public class EnemyController : MonoBehaviour
     public void SetHealth()
     {
         slider.value = mCurrentHealth;
+    }
+
+    public int GetHealth()
+    {
+        return mCurrentHealth;
+    }
+
+    public int GetMaxHealth()
+    {
+        return initHealth;
     }
 
     public bool GetIsDead() { return (mCurrentHealth <= 0f); }
@@ -92,6 +104,11 @@ public class EnemyController : MonoBehaviour
         if (mCurrentHealth <= 0)
         {
             Die();
+
+            if (enemySpawner != null) // if was spawned by an enemySpawner
+            {
+                enemySpawner.GetComponent<EnemySpawner>().ifEnemyDied(); // run ifEnemyDied
+            }
         }
     }
 

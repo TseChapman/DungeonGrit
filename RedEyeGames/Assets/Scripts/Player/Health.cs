@@ -15,7 +15,9 @@ public class Health : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int health;
-
+    
+    [SerializeField] private InventorySave inventorySave;
+    
     public void SetIsGod(bool isGodActive)
     {
         isGod = isGodActive;
@@ -46,8 +48,18 @@ public class Health : MonoBehaviour
     void Start()
     {
         heroMovement = GetComponent<HeroMovement>();
+        
         maxHealth = 100;
-        health = maxHealth;
+        
+        if(inventorySave != null && inventorySave.health > 0)
+        {
+            /*inventorySave = GetComponent<InventorySave>();
+            health = inventorySave.health;*/
+            health = inventorySave.SetHealth();
+        }
+        else
+            health = maxHealth;
+
         SetMaxHealth();
     }
 
@@ -92,6 +104,8 @@ public class Health : MonoBehaviour
             this.health = maxHealth;
 
         SetHealth();
+
+        inventorySave.SaveHealth(health);
     }
 
     public void TakeDamage(int damage, float knockbackForce, Transform obj)
@@ -111,6 +125,8 @@ public class Health : MonoBehaviour
         heroMovement.Knockback(obj, knockbackForce);
         animator.SetBool("IsJumping", false);
         animator.SetTrigger("Hurt");
+
+        inventorySave.SaveHealth(health);
 
         if (health < 1)
             Death();

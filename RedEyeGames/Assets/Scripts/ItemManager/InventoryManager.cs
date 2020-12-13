@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
+    [SerializeField] private InventorySave inventorySave;
+
     public Transform heroPosition;
     public Image powerUpSlot;
     public Text powerUpCoolDown;
@@ -27,6 +29,39 @@ public class InventoryManager : MonoBehaviour
     private int[] mNumItem = new int[NUM_ITEM_SLOT];
     private float mPowerUpTimer = 0f;
     [SerializeField] private float mPowerUpDuration = 30f;
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        //if(inventorySave != null)
+        inventorySave = GameObject.FindObjectOfType<InventorySave>(); // GetComponent<InventorySave>();
+
+        mItemManager = GameObject.FindObjectOfType<ItemManager>();
+        mHeroPotionEffect = GameObject.FindObjectOfType<HeroPotionEffect>();
+        mHealth = GameObject.FindObjectOfType<Health>();
+        weaponGlow = GameObject.FindObjectOfType<WeaponGlow>();
+
+
+        InitInventory(); 
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            DebugInventory();
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            DebugRemove();
+        }
+
+        mPowerUpTimer -= Time.smoothDeltaTime;
+        powerUpCoolDown.text = "" + (int)Mathf.Max(0f, mPowerUpTimer);
+        powerUpSlot.fillAmount -= 1 / mPowerUpDuration * Time.deltaTime;
+        UpdatePowerUpSprite();
+    }
 
     public void UseItem(int slotIndex)
     {
@@ -89,8 +124,11 @@ public class InventoryManager : MonoBehaviour
         {
             Drop(slotIndex);
         }
+
+
         UpdateSlotSprites();
         UpdateCountText();
+        inventorySave.SaveInventory(mInventory, mNumItem);
     }
 
     // Called from picking up item
@@ -133,8 +171,12 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
+
         UpdateSlotSprites();
         UpdateCountText();
+        
+        inventorySave.SaveInventory(mInventory, mNumItem);
+        
         return isCollectable;
     }
 
@@ -146,6 +188,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         DropItem(slotIndex);
+
     }
 
     // Called from droping item from inventory
@@ -158,42 +201,34 @@ public class InventoryManager : MonoBehaviour
         }
         UpdateSlotSprites();
         UpdateCountText();
+        inventorySave.SaveInventory(mInventory, mNumItem);
     }
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-        mItemManager = GameObject.FindObjectOfType<ItemManager>();
-        mHeroPotionEffect = GameObject.FindObjectOfType<HeroPotionEffect>();
-        mHealth = GameObject.FindObjectOfType<Health>();
-        weaponGlow = GameObject.FindObjectOfType<WeaponGlow>();
-        InitInventory();
-    }
 
-    // Update is called once per frame
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            DebugInventory();
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            DebugRemove();
-        }
-
-        mPowerUpTimer -= Time.smoothDeltaTime;
-        powerUpCoolDown.text = "" + (int)Mathf.Max(0f, mPowerUpTimer);
-        powerUpSlot.fillAmount -= 1 / mPowerUpDuration * Time.deltaTime;
-        UpdatePowerUpSprite();
-    }
 
     // initial the inventory items = -1
-    private void InitInventory()
+    private void InitInventory() 
     {
-        for (int i = 0; i < NUM_ITEM_SLOT; i++)
+        /*if (inventorySave != null)
         {
-            mInventory.Add(-1);
+            *//*for (int i = 0; i < NUM_ITEM_SLOT; i++)
+            {
+                mInventory[i] = inventorySave.mInventory[i];
+                mNumItem[i] = inventorySave.numOfItems[i];
+            }*/
+
+            /*mInventory = inventorySave.SetInventoryTypes();
+            mNumItem = inventorySave.SetInventoryCount();*//*
+
+            UpdateSlotSprites();
+        }
+
+        else*/ 
+        {
+            for (int i = 0; i < NUM_ITEM_SLOT; i++)
+            {
+                mInventory.Add(-1);
+            }
         }
     }
 

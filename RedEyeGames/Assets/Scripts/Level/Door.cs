@@ -10,6 +10,10 @@ public class Door : MonoBehaviour
 
     public void LoadScene()
     {
+        // Save data
+
+
+        // Load Scene
         SceneManager.LoadScene(scene);
     }
 

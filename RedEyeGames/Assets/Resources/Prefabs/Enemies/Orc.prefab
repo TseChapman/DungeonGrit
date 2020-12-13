@@ -184,11 +184,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 2476475517196665503}
   enemyBehavior: 5
-  initHealth: 300
+  initHealth: 200
   mCurrentHealth: 0
   runSpeed: 50
   attackRate: 0.5
-  attackRange: 0.8
+  attackRange: 1
   trackingDistance: 10
   knockbackDuration: 0.5
   forceX: 2
@@ -200,6 +200,7 @@ MonoBehaviour:
   frozen: 0
   iceImmuneTime: 5
   patrolPoints: []
+  enemySpawner: {fileID: 0}
 --- !u!114 &742606065930833731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,7 +237,8 @@ MonoBehaviour:
   mEnemyBehavior: 6
   mAttackDamage: 15
   mKnockbackForce: 10
-  extraDamage: 0
+  isExtraDamage: 1
+  extraDamage: 5
   patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
