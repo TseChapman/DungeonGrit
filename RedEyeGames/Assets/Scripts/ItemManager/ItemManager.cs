@@ -19,8 +19,10 @@ public class ItemManager : MonoBehaviour
 {
     public Sprite[] itemBank = new Sprite[(int)Item.NUM_ITEM];
     public GameObject[] itemPrefabs = new GameObject[(int)Item.NUM_ITEM];
+    public bool mKeyDropped = false;
 
     private ArrayList mAvailableItems = new ArrayList();
+    
 
     public Sprite GetItemSprite(int itemIndex)
     {
@@ -47,6 +49,15 @@ public class ItemManager : MonoBehaviour
             float prob = Random.Range(0, 1f);
             //Debug.Log(prob);
             CheckItem(prob, targetPosition);
+        }
+
+        // Every enemy has a chance to drop the door key
+        int keyDropChance = Random.Range(1, 100); // between 1 to 100
+
+        // 40% chance for key to drop
+        if (keyDropChance >= 60)
+        {
+            mKeyDropped = true;
         }
     }
 

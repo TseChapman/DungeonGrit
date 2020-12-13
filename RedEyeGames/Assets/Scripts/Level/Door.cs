@@ -7,15 +7,17 @@ public class Door : MonoBehaviour
 {
     [SerializeField] private string scene;
     [SerializeField] private Animator animator;
+    [SerializeField] private InventoryManager mInvManager;
 
     public void LoadScene()
     {
+        mInvManager.mHasKey = false;
         SceneManager.LoadScene(scene);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && mInvManager.mHasKey)
             animator.SetBool("isHeroClose", true);
     }
 
