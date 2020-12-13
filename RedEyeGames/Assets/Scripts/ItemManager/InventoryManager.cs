@@ -11,6 +11,8 @@ public class InventoryManager : MonoBehaviour
     public Image[] itemSlot = new Image[NUM_ITEM_SLOT];
     public Text[] countText = new Text[NUM_ITEM_SLOT];
     public Sprite[] powerUpSprites = new Sprite[4]; // 4 power ups
+    public Image keySlot;
+    public Sprite keySprite;
 
     public Sprite powerUpDefuatImage;
     public Sprite itemDefuatImage;
@@ -27,6 +29,8 @@ public class InventoryManager : MonoBehaviour
     private int[] mNumItem = new int[NUM_ITEM_SLOT];
     private float mPowerUpTimer = 0f;
     [SerializeField] private float mPowerUpDuration = 30f;
+
+    public bool mHasKey = false;
 
     public void UseItem(int slotIndex)
     {
@@ -182,6 +186,12 @@ public class InventoryManager : MonoBehaviour
             DebugRemove();
         }
 
+        if (mItemManager.mKeyDropped && !mHasKey)
+        {
+            mHasKey = true;
+            UpdateSlotSprites();
+        }
+
         mPowerUpTimer -= Time.smoothDeltaTime;
         powerUpCoolDown.text = "" + (int)Mathf.Max(0f, mPowerUpTimer);
         powerUpSlot.fillAmount -= 1 / mPowerUpDuration * Time.deltaTime;
@@ -240,6 +250,11 @@ public class InventoryManager : MonoBehaviour
             {
                 itemSlot[i].sprite = itemDefuatImage;
             }
+        }
+
+        if (mHasKey)
+        {
+            keySlot.sprite = keySprite;
         }
     }
 
