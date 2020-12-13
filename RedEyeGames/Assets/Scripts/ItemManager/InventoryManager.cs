@@ -13,6 +13,8 @@ public class InventoryManager : MonoBehaviour
     public Image[] itemSlot = new Image[NUM_ITEM_SLOT];
     public Text[] countText = new Text[NUM_ITEM_SLOT];
     public Sprite[] powerUpSprites = new Sprite[4]; // 4 power ups
+    public Image keySlot;
+    public Sprite keySprite;
 
     public Sprite powerUpDefuatImage;
     public Sprite itemDefuatImage;
@@ -30,6 +32,7 @@ public class InventoryManager : MonoBehaviour
     private float mPowerUpTimer = 0f;
     [SerializeField] private float mPowerUpDuration = 30f;
 
+<<<<<<< HEAD
     // Start is called before the first frame update
     private void Start()
     {
@@ -62,6 +65,9 @@ public class InventoryManager : MonoBehaviour
         powerUpSlot.fillAmount -= 1 / mPowerUpDuration * Time.deltaTime;
         UpdatePowerUpSprite();
     }
+=======
+    public bool mHasKey = false;
+>>>>>>> d6c7183b215a5bd8347216c093b30ebf8492f455
 
     public void UseItem(int slotIndex)
     {
@@ -76,10 +82,10 @@ public class InventoryManager : MonoBehaviour
         if (isGem)
         {
             //Debug.Log("IsGem is true");
-            if (mNumItem[slotIndex] >= 3)
+            if (mNumItem[slotIndex] >= 2)
             {
                 GainPowerUp((Item)mInventory[slotIndex]); // get the power up based on the gem
-                mNumItem[slotIndex] -= 3;
+                mNumItem[slotIndex] -= 2;
             }
         }
         else if (isPotion)
@@ -217,8 +223,22 @@ public class InventoryManager : MonoBehaviour
                 mNumItem[i] = inventorySave.numOfItems[i];
             }*/
 
+<<<<<<< HEAD
             /*mInventory = inventorySave.SetInventoryTypes();
             mNumItem = inventorySave.SetInventoryCount();*//*
+=======
+        if (mItemManager.mKeyDropped && !mHasKey)
+        {
+            mHasKey = true;
+            UpdateSlotSprites();
+        }
+
+        mPowerUpTimer -= Time.smoothDeltaTime;
+        powerUpCoolDown.text = "" + (int)Mathf.Max(0f, mPowerUpTimer);
+        powerUpSlot.fillAmount -= 1 / mPowerUpDuration * Time.deltaTime;
+        UpdatePowerUpSprite();
+    }
+>>>>>>> d6c7183b215a5bd8347216c093b30ebf8492f455
 
             UpdateSlotSprites();
         }
@@ -275,6 +295,11 @@ public class InventoryManager : MonoBehaviour
             {
                 itemSlot[i].sprite = itemDefuatImage;
             }
+        }
+
+        if (mHasKey)
+        {
+            keySlot.sprite = keySprite;
         }
     }
 
