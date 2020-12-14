@@ -124,35 +124,14 @@ public class HeroMovement : MonoBehaviour
         {
             if (rollTimeLeft > 0)
             {
-                boxCollider2D.enabled = false;
                 if (transform.localScale.x > 0)
-                    if (controller.getGrounded())
-                    {
-                        rigidBody2D.bodyType = RigidbodyType2D.Kinematic;
-                        rigidBody2D.velocity = new Vector2(rollSpeed, 0);
-                    }
-                    else
-                    {
-                        rigidBody2D.bodyType = RigidbodyType2D.Dynamic;
-                        rigidBody2D.velocity = new Vector2(rollSpeed, rigidBody2D.velocity.y);
-                    }
+                    rigidBody2D.velocity = new Vector2(rollSpeed, rigidBody2D.velocity.y);
                 else
-                    if (controller.getGrounded())
-                    {
-                        rigidBody2D.bodyType = RigidbodyType2D.Kinematic;
-                        rigidBody2D.velocity = new Vector2(-rollSpeed, 0);
-                    }
-                    else
-                    {
-                        rigidBody2D.bodyType = RigidbodyType2D.Dynamic;
-                        rigidBody2D.velocity = new Vector2(-rollSpeed, rigidBody2D.velocity.y);
-                    }
+                    rigidBody2D.velocity = new Vector2(-rollSpeed, rigidBody2D.velocity.y);
                 rollTimeLeft -= Time.deltaTime;
             }
             if (rollTimeLeft < 0)
             {
-                boxCollider2D.enabled = true;
-                rigidBody2D.bodyType = RigidbodyType2D.Dynamic;
                 isRolling = false;
             }
         }
@@ -209,15 +188,35 @@ public class HeroMovement : MonoBehaviour
     {
         if (collision.collider.CompareTag("Enemy") || collision.collider.CompareTag("Undead"))
         {
-            int damage = collision.gameObject.GetComponent<EnemyNormalBehavior>().CollisionDamage();
-            float knockbackForce = collision.gameObject.GetComponent<EnemyNormalBehavior>().KnockbackForce();
-            health.TakeDamage(damage, knockbackForce, collision.transform);
+            if (isRolling)
+            {
+                collision.collider.enabled = false;
+                collision.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+                collision.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x, 0);
+                collision.gameObject.GetComponent<EnemyNormalBehavior>().ActivateCollider();
+            }
+            else
+            {
+                int damage = collision.gameObject.GetComponent<EnemyNormalBehavior>().CollisionDamage();
+                float knockbackForce = collision.gameObject.GetComponent<EnemyNormalBehavior>().KnockbackForce();
+                health.TakeDamage(damage, knockbackForce, collision.transform);
+            }
         }
         else if (collision.collider.CompareTag("Boss"))
         {
-            int damage = collision.gameObject.GetComponent<BossBehavior>().CollisionDamage();
-            float knockbackForce = collision.gameObject.GetComponent<BossBehavior>().KnockbackForce();
-            health.TakeDamage(damage, knockbackForce, collision.transform);
+            if (isRolling)
+            {
+                collision.collider.enabled = false;
+                collision.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+                collision.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(collision.gameObject.GetComponent<Rigidbody2D>().velocity.x, 0);
+                collision.gameObject.GetComponent<BossBehavior>().ActivateCollider();
+            }
+            else
+            {
+                int damage = collision.gameObject.GetComponent<BossBehavior>().CollisionDamage();
+                float knockbackForce = collision.gameObject.GetComponent<BossBehavior>().KnockbackForce();
+                health.TakeDamage(damage, knockbackForce, collision.transform);
+            }
         }
     }
 
@@ -239,5 +238,10 @@ public class HeroMovement : MonoBehaviour
         horizontalMove = 0;
         yield return new WaitForSecondsRealtime(stunDuration);
         isStun = false;
+    }
+
+    public bool IsRolling()
+    {
+        return isRolling;
     }
 }

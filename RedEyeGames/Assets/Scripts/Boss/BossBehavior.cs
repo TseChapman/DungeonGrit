@@ -42,6 +42,8 @@ public class BossBehavior : MonoBehaviour
     private int mNumAttackToLightning;
     private bool mIsAttack;
 
+    private float colliderTime = 0.2f;
+
     public void SetAttackDamage(float attackMultiplier) { mAttackDamage = (int)((float)mAttackDamage * attackMultiplier); }
 
     public int CollisionDamage() { return mCollisionDamage; }
@@ -262,5 +264,19 @@ public class BossBehavior : MonoBehaviour
             mNextLongRangeAttack = Time.time + 1f / mLongRangeAttackRate;
             mNumAttackToLightning++;
         }
+    }
+
+    public void ActivateCollider()
+    {
+        StartCoroutine(ActivateColliderCoroutine());
+    }
+
+    IEnumerator ActivateColliderCoroutine()
+    {
+        yield return new WaitForSecondsRealtime(colliderTime);
+        boxCollider.enabled = true;
+        rb.bodyType = RigidbodyType2D.Dynamic;
+
+        yield return 0;
     }
 }

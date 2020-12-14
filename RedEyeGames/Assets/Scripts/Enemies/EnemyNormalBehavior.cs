@@ -29,8 +29,10 @@ public class EnemyNormalBehavior : MonoBehaviour
     private float mTrackingRange = 0f;
     [SerializeField] private int mAttackDamage = 10;
     [SerializeField] private float mKnockbackForce = 5;
+    [SerializeField] private float colliderTime = 0.2f;
     private int mCollisionDamage = 5;
     private bool isGrounded;
+
 
     private float mNextWayPointDist = 1f;
     private Pathfinding.Path mPath;
@@ -45,7 +47,6 @@ public class EnemyNormalBehavior : MonoBehaviour
     private bool OrcRight = true;
 
     private int currentPatrolPoint = 0;
-
 
 
     // Start is called before the first frame update
@@ -300,7 +301,7 @@ public class EnemyNormalBehavior : MonoBehaviour
                 hero.GetComponent<Health>().TakeDamage(mAttackDamage + extraDamage, mKnockbackForce, this.transform);
             else
             */
-                hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);
+            hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);
     }
 
     // Check if hero is within attack range, if so, attack
@@ -314,7 +315,7 @@ public class EnemyNormalBehavior : MonoBehaviour
         {
             RotateTowardHero();
             UpdateSpeed(0f);
-            if (Time.time >= mNextAttack)
+            if (Time.time >= mNextAttack && !hero.GetComponent<HeroMovement>().IsRolling())
             {
                 animator.SetTrigger("Attack"); // attack function is called within the animator
                 mNextAttack = Time.time + 1f / mAttackRate;
@@ -405,5 +406,19 @@ public class EnemyNormalBehavior : MonoBehaviour
     public void setHero(GameObject theHero)
     {
         hero = theHero;
+    }
+
+    public void ActivateCollider()
+    {
+        StartCoroutine(ActivateColliderCoroutine());
+    }
+
+    IEnumerator ActivateColliderCoroutine()
+    {
+        yield return new WaitForSecondsRealtime(colliderTime);
+        boxCollider.enabled = true;
+        rb.bodyType = RigidbodyType2D.Dynamic;
+
+        yield return 0;
     }
 }

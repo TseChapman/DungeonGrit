@@ -48,6 +48,11 @@ public class HeroAttack : MonoBehaviour
         }
     }
 
+    void AttackSound()
+    {
+        FindObjectOfType<AudioManager>().Play("Swing");
+    }
+
     void Attack()
     {
         powerUp = weaponGlow.GetPowerUp();
