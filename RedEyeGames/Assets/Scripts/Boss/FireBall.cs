@@ -49,6 +49,7 @@ public class FireBall : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
             collision.gameObject.GetComponent<Health>().TakeDamage(damage, knockbackForce, this.transform);
+        FindObjectOfType<AudioManager>().Play("FireBallExplode");
         animator.SetBool("Explosion", true);
         //Debug.Log("Explosion");
         isExplode = true;

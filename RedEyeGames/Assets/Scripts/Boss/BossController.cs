@@ -72,6 +72,7 @@ public class BossController : MonoBehaviour
         DamagePopUp.CreateEnemy(transform.position, damage);
 
         // animate hurt animation
+        FindObjectOfType<AudioManager>().Play("Hurt");
         animator.SetTrigger("Hurt");
         StartCoroutine(Knockback(knockbackDuration, obj, force));
         // if current drop below 0, play die animation and set enable to boc collider and scripts to
@@ -273,10 +274,13 @@ public class BossController : MonoBehaviour
         StopAllCoroutines();
 
         // set death animation
+        FindObjectOfType<AudioManager>().Play("Death");
         gameObject.GetComponent<BossBehavior>().animator.SetBool("isDead", true);
 
         // Spawn Item
         itemManager.DropRandom(gameObject.transform);
+        // Spawn Key
+        itemManager.mKeyDropped = true;
 
         // ragdoll effect
         StartCoroutine(BodyFall());

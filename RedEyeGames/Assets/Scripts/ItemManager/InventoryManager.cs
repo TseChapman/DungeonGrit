@@ -40,6 +40,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
 
+        FindObjectOfType<AudioManager>().Play("ButtonClick");
         bool isGem = mItemManager.IsGem((Item)mInventory[slotIndex]);
         bool isPotion = mItemManager.IsPotion((Item)mInventory[slotIndex]);
         if (isGem)
