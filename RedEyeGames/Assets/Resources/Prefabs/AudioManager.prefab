@@ -80,3 +80,21 @@ MonoBehaviour:
     pitch: 1
     isLoop: 0
     source: {fileID: 0}
+  - name: GameVictory
+    clip: {fileID: 8300000, guid: 5292dc0257218d84c977bfa99ad176ca, type: 3}
+    volume: 0.5
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: Hurt
+    clip: {fileID: 8300000, guid: 0e7b1997bf9a1cf45af2133be92ae2ce, type: 3}
+    volume: 0.5
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: Death
+    clip: {fileID: 8300000, guid: 90c4d532ad8b0b8438174b8122a79689, type: 3}
+    volume: 0.5
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}

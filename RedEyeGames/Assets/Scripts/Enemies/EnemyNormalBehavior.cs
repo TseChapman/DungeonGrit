@@ -296,12 +296,16 @@ public class EnemyNormalBehavior : MonoBehaviour
             Physics2D.OverlapCircle(attackPoint.transform.position, mAttackRange, heroLayer);
 
         if (hitHero)
+        {
+            FindObjectOfType<AudioManager>().Play("Swing");
+            hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);
+        }
             /*
             if(this.GetComponent<Health>().GetHealth() < this.GetComponent<Health>().GetMaxHealth() * (3 / 4) && mEnemyBehavior == EnemyBehavior.ORC) // if has less then 3/4 health (and an orc) take extra damage
                 hero.GetComponent<Health>().TakeDamage(mAttackDamage + extraDamage, mKnockbackForce, this.transform);
             else
             */
-            hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);
+            
     }
 
     // Check if hero is within attack range, if so, attack

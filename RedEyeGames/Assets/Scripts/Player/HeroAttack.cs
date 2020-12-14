@@ -42,6 +42,7 @@ public class HeroAttack : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
+                FindObjectOfType<AudioManager>().Play("Swing");
                 animator.SetTrigger("Attack"); // attack function is within the animation
                 nextAttackTime = Time.time + 1f / attackRate;
             }

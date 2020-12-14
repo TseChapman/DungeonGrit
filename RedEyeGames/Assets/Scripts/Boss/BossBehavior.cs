@@ -253,6 +253,7 @@ public class BossBehavior : MonoBehaviour
         if (Time.time >= mNextAttack && dist <= mAttackRange)
         {
             //UpdateSpeed(0f);
+            FindObjectOfType<AudioManager>().Play("Swing");
             animator.SetTrigger("Attack");
             mNextAttack = Time.time + 1f / mAttackRate; // Next attack time
             mNumAttackToLightning++;
@@ -260,6 +261,7 @@ public class BossBehavior : MonoBehaviour
         else if (Time.time >= mNextLongRangeAttack && dist >= mAttackRange)
         {
             //UpdateSpeed(0f);
+            FindObjectOfType<AudioManager>().Play("FireBallShot");
             animator.SetTrigger("LongRangeAttack");
             mNextLongRangeAttack = Time.time + 1f / mLongRangeAttackRate;
             mNumAttackToLightning++;
