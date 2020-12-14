@@ -28,6 +28,11 @@ public class LevelLoader : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    public void ClickSound()
+    {
+        FindObjectOfType<AudioManager>().Play("ButtonClick");
+    }
+
     public void Quit()
     {
         Application.Quit();
