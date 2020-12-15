@@ -11,8 +11,11 @@ public class Door : MonoBehaviour
 
     public void LoadScene()
     {
-        mInvManager.mHasKey = false;
-        SceneManager.LoadScene(scene);
+        if (mInvManager.mHasKey)
+        {
+            mInvManager.mHasKey = false;
+            SceneManager.LoadScene(scene);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -360,10 +360,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 7279425431302067214}
   enemyBehavior: 2
-  initHealth: 100
+  initHealth: 40
   mCurrentHealth: 0
   runSpeed: 70
-  attackRate: 2
+  attackRate: 1.2
   attackRange: 0.5
   trackingDistance: 4
   knockbackDuration: 0.5
@@ -375,6 +375,7 @@ MonoBehaviour:
   numIceHits: 0
   frozen: 0
   iceImmuneTime: 5
+  patrolPoints: []
 --- !u!114 &5135648990090064124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,7 +409,12 @@ MonoBehaviour:
   groundCheck: {fileID: 5135648988267260282}
   attackPoint: {fileID: 5135648988985094939}
   hero: {fileID: 0}
+  mEnemyBehavior: 7
   mAttackDamage: 10
+  mKnockbackForce: 5
+  colliderTime: 0.2
+  extraDamage: 0
+  patrolPoints: []
 --- !u!1001 &236794138860484888
 PrefabInstance:
   m_ObjectHideFlags: 0

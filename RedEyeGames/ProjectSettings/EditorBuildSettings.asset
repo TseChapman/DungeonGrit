@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Resources/Scenes/Credits.unity
     guid: 0ceff37b1c8eaa9459acdb23d2a1d09b
+  - enabled: 1
+    path: Assets/Resources/Scenes/miniboss.unity
+    guid: 7c3c1e552d76859409bd14ec444690bc
   m_configObjects: {}

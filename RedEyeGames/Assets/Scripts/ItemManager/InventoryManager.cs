@@ -178,14 +178,14 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        /*if (Input.GetKeyDown(KeyCode.J))
         {
             DebugInventory();
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
             DebugRemove();
-        }
+        }*/
 
         if (mItemManager.mKeyDropped && !mHasKey)
         {

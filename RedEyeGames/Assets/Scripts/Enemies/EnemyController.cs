@@ -18,7 +18,7 @@ public class EnemyController : MonoBehaviour
     private ItemManager mItemManager;
 
     [SerializeField] public int initHealth = 0;
-    [SerializeField] private int mCurrentHealth;
+    public int mCurrentHealth;
     [SerializeField] private float runSpeed = 0f;
     [SerializeField] private float attackRate = 0f;
     [SerializeField] private float attackRange = 0f;
@@ -36,6 +36,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private bool frozen = false;
     [SerializeField] private int iceImmuneTime = 5;
 
+    public GameObject enemySpawner = null; // this is only used if spawned by enemySpawner 
     [SerializeField] public Transform[] patrolPoints;
 
     // Start is called before the first frame update
@@ -60,6 +61,16 @@ public class EnemyController : MonoBehaviour
     public void SetHealth()
     {
         slider.value = mCurrentHealth;
+    }
+
+    public int GetHealth()
+    {
+        return mCurrentHealth;
+    }
+
+    public int GetMaxHealth()
+    {
+        return initHealth;
     }
 
     public bool GetIsDead() { return (mCurrentHealth <= 0f); }
@@ -93,6 +104,10 @@ public class EnemyController : MonoBehaviour
         if (mCurrentHealth <= 0)
         {
             Die();
+            if (enemySpawner != null) // if was spawned by an enemySpawner
+            {
+                enemySpawner.GetComponent<EnemySpawner>().ifEnemyDied(); // run ifEnemyDied
+            }
         }
     }
 
@@ -237,6 +252,9 @@ public class EnemyController : MonoBehaviour
 
     private void Die()
     {
+        if (enemyBehavior == EnemyBehavior.ORC)
+            mItemManager.mKeyDropped = true;
+
         // disable health bar
         canvas.enabled = false;
 
