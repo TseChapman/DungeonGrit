@@ -32,6 +32,9 @@ public class Health : MonoBehaviour
         isDead = true;
         health = 0;
         SetHealth();
+
+        FindObjectOfType<AudioManager>().Play("Death");
+
         animator.SetBool("IsDead", true);
 
         FindObjectOfType<GameOverMenu>().GameOver();
@@ -57,10 +60,10 @@ public class Health : MonoBehaviour
         if (isDead)
             return;
 
-        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        /*if (Input.GetKeyDown(KeyCode.KeypadMinus))
             TakeDamage(25, 5f, this.transform);
         if (Input.GetKeyDown(KeyCode.KeypadPlus))
-            GainHealth(50);
+            GainHealth(50);*/
     }
 
     public float GetMaxHealth()
@@ -110,6 +113,9 @@ public class Health : MonoBehaviour
 
         heroMovement.Knockback(obj, knockbackForce);
         animator.SetBool("IsJumping", false);
+
+        FindObjectOfType<AudioManager>().Play("Hurt");
+
         animator.SetTrigger("Hurt");
 
         if (health < 1)

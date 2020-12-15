@@ -33,20 +33,24 @@ public class EnemyNormalBehavior : MonoBehaviour
     private int mCollisionDamage = 5;
     private bool isGrounded;
 
+    private SpriteRenderer sRender;
+
 
     private float mNextWayPointDist = 1f;
     private Pathfinding.Path mPath;
     private int mCurrentWayPoint = 0;
     private bool mReachedEndOfPath = false;
 
-    // orc stuff
-    [SerializeField] private int extraDamage = 0; // the 0 is for the initalizastion
+    // boss variables
+    [SerializeField] private bool isExtraDamage = false;
+    [SerializeField] private int extraDamage = 5; // the 0 is for the initalizastion
 
 
     public Transform[] patrolPoints = null;
     private bool OrcRight = true;
 
-    private int currentPatrolPoint = 0;
+    private bool EnemyRight = true;
+    private int currentPatrolPoint = 1; // Needs to be 1
 
 
     // Start is called before the first frame update
@@ -57,17 +61,18 @@ public class EnemyNormalBehavior : MonoBehaviour
         mAttackRate = enemyController.GetAttackRate();
         mAttackRange = enemyController.GetAttackRange();
         mTrackingRange = enemyController.GetTrackingDistance();
+        sRender = this.GetComponent<SpriteRenderer>();
 
 
         //patrolPoints = p
 
-/*        patrolPoints = new Transform[patrolPoints.Length];
-        
-        for (int i = 0; i < patrolPoints.Length; i++)
-        {
-            
-            patrolPoints[i] = enemyController.patrolPoints[i];
-        }*/
+        /*        patrolPoints = new Transform[patrolPoints.Length];
+
+                for (int i = 0; i < patrolPoints.Length; i++)
+                {
+
+                    patrolPoints[i] = enemyController.patrolPoints[i];
+                }*/
 
 
         currentPatrolPoint = 1;
@@ -85,7 +90,7 @@ public class EnemyNormalBehavior : MonoBehaviour
         bool isBlock = CheckIsBlocked();
         
         
-        if (mEnemyBehavior == EnemyBehavior.TRACKING || (mEnemyBehavior == EnemyBehavior.ORC && OrcTrackTrue()))
+        if (mEnemyBehavior == EnemyBehavior.TRACKING)
         {
             // Change direction to face hero if not already facing hero
             //UpdateSpeed(0f);
@@ -103,13 +108,10 @@ public class EnemyNormalBehavior : MonoBehaviour
             UpdateSpeed(enemyController.GetSpeed());
         }
 
-        // temp comment
-
-        /*// Orc Patrol
-        else if(mEnemyBehavior == EnemyBehavior.ORC)
+        else if (mEnemyBehavior == EnemyBehavior.ORC && OrcTrackTrue())
         {
-            OrcRetreat();
-        }*/
+            OrcTrackHero(isGound);
+        }
 
         else if (mEnemyBehavior == EnemyBehavior.GHOST)
         {
@@ -298,7 +300,7 @@ public class EnemyNormalBehavior : MonoBehaviour
         if (hitHero)
         {
             FindObjectOfType<AudioManager>().Play("Swing");
-            hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);
+            dealDamage();
         }
             /*
             if(this.GetComponent<Health>().GetHealth() < this.GetComponent<Health>().GetMaxHealth() * (3 / 4) && mEnemyBehavior == EnemyBehavior.ORC) // if has less then 3/4 health (and an orc) take extra damage
@@ -306,6 +308,56 @@ public class EnemyNormalBehavior : MonoBehaviour
             else
             */
             
+    }
+
+    private void dealDamage()
+    {
+        // if extra damage is happening
+        if (enemyController.GetHealth() < enemyController.GetMaxHealth() / 2 && isExtraDamage)
+        {
+            hero.GetComponent<Health>().TakeDamage(mAttackDamage + extraDamage, mKnockbackForce, this.transform);
+        }
+
+        // normal attack
+        else
+        {
+            hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);
+        }
+
+        /*hero.GetComponent<Health>().TakeDamage(mAttackDamage, mKnockbackForce, this.transform);*/
+    }
+
+    // Tracking Behavior: Track toward hero within tracking range
+    private void OrcTrackHero(bool isGround)
+    {
+        if (enemyController.IsStun()) // cannot move if stunned
+            return;
+
+        float dist = Vector3.Distance(enemyPosition.transform.position, hero.transform.position);
+        if (dist <= mTrackingRange)
+        {
+            RotateTowardHero();
+            if (!isGround)
+            {
+                UpdateSpeed(0f);
+            }
+
+            else if (enemyController.GetHealth() < enemyController.GetMaxHealth() / 4 /*&& mEnemyBehavior == EnemyBehavior.ORC*/)
+            {
+                UpdateSpeed(enemyController.GetSpeed() * 3 / 2); // if the orc health is less then 25% then increase speed to 1.5 original
+
+                // turn red
+                sRender.color = new Color(1, 0.5f, 0.5f);
+            }
+
+
+            else
+                UpdateSpeed(enemyController.GetSpeed());
+        }
+        else
+        {
+            UpdateSpeed(0f);
+        }
     }
 
     // Check if hero is within attack range, if so, attack
@@ -319,7 +371,7 @@ public class EnemyNormalBehavior : MonoBehaviour
         {
             RotateTowardHero();
             UpdateSpeed(0f);
-            if (Time.time >= mNextAttack && !hero.GetComponent<HeroMovement>().IsRolling())
+            if (Time.time >= mNextAttack)// && !hero.GetComponent<HeroMovement>().IsRolling())
             {
                 animator.SetTrigger("Attack"); // attack function is called within the animator
                 mNextAttack = Time.time + 1f / mAttackRate;
