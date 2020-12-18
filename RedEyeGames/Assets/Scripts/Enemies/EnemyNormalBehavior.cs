@@ -195,7 +195,7 @@ public class EnemyNormalBehavior : MonoBehaviour
     private void FindPath()
     {
         //Debug.Log("FINDING PATH");
-        if (seeker == null || enemyController.GetIsDead() is true)
+        if (seeker == null) // || enemyController.GetIsDead() is true)
             return;
 
         InvokeRepeating("FindPathTrack", 0f, .5f);
