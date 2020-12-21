@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1965386784824068687
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1965386784824068685}
+  - component: {fileID: 1965386784824068684}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1965386784824068685
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965386784824068687}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1965386784824068684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1965386784824068687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41cdc7e1c24f73409fa53ae0137995a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sounds:
+  - name: Swing
+    clip: {fileID: 8300000, guid: e41e83140e964e6479fd4f499b94cd2c, type: 3}
+    volume: 0.5
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: FireBallShot
+    clip: {fileID: 8300000, guid: 0847f749017fd6a47b50538c3c0c52d4, type: 3}
+    volume: 1
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: ButtonClick
+    clip: {fileID: 8300000, guid: 470b2aa0398a21c42abcf574bbdafad0, type: 3}
+    volume: 0.5
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: CaveLevel
+    clip: {fileID: 8300000, guid: f65d2f2417bd0b940b26729cb3c88cda, type: 3}
+    volume: 0.1
+    pitch: 1
+    isLoop: 1
+    source: {fileID: 0}
+  - name: FinalBoss
+    clip: {fileID: 8300000, guid: 0e1f1a5c381024048abaff39c2d3938b, type: 3}
+    volume: 0.1
+    pitch: 1
+    isLoop: 1
+    source: {fileID: 0}
+  - name: FireBallExplode
+    clip: {fileID: 8300000, guid: a79a338d4361ef841afaefbc7857e7a7, type: 3}
+    volume: 0.5
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: GameVictory
+    clip: {fileID: 8300000, guid: 5292dc0257218d84c977bfa99ad176ca, type: 3}
+    volume: 0.5
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: Hurt
+    clip: {fileID: 8300000, guid: 0e7b1997bf9a1cf45af2133be92ae2ce, type: 3}
+    volume: 0.5
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
+  - name: Death
+    clip: {fileID: 8300000, guid: 90c4d532ad8b0b8438174b8122a79689, type: 3}
+    volume: 0.5
+    pitch: 1
+    isLoop: 0
+    source: {fileID: 0}
